@@ -37,9 +37,9 @@ Article.create = (newArticle, result) => {
     });
   };
 
-  Article.findById = (articleId, result) => {
-    sql.query(`SELECT * FROM article WHERE id = ${articleId}`, (err, res) => {
-      if (err) {
+  Article.findById = /* async */ (articleId, result) => { 
+  /* let article =  await */ sql.query(`SELECT * FROM article WHERE id = ${articleId}`,  (err, res)  => { 
+      if (err) { 
         console.log("error: ", err);
         result(err, null);
         return;
@@ -48,12 +48,13 @@ Article.create = (newArticle, result) => {
       if (res.length) {
         console.log("found article: ", res[0]);
         result(null, res[0]);
-        return;
+        return res[0];
       }
   
       // not found article with the id
       result({ kind: "not_found" }, null);
     });
+    /* return article */
   };
 
 

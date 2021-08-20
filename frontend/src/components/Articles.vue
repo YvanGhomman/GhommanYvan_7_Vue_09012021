@@ -9,8 +9,8 @@
                     <h5 class="card-title text-center">{{item.titre}}</h5>    
                     <p class="card-text text-center">{{item.contenu}}</p>
                     <a href="" class="col-5 offset-1 btn btn-dark"><span class="gradient">Voir détails</span></a>
-                    <a @click="deletePost(item.id)" class="col-5 offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
-
+                    <a v-if="yo(item.id_user)" @click="deletePost(item.id)"  class="col-5 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
+                    
                 </div>
             </div>
         </div>
@@ -35,9 +35,10 @@ export default {
             })
                 .then((response) => {
                 console.log(response.data)
+                console.log(sessionStorage);
                 this.donnees = response.data
-                })                           
-        }
+                }) 
+        }        
         
     },
      methods: {
@@ -45,19 +46,37 @@ export default {
         if(confirm("Voulez-vous vraiment supprimer ce post ?")){
       axios.delete("http://localhost:3000/article/" + data, {
         method: "DELETE",
-        /* headers: {
+         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
-        }, */
+        }, 
       })
         .then(function(response) { 
             console.log(response);
-            window.location.href ="/accueil"; 
+            document.location.reload();
         }) 
         .catch(function(error) { 
             console.log(error); 
         });
     }},
-  }, 
+    yo(data){
+        return {
+            plouf(data){ 
+                let BTNSupp = document.getElementsByClassName("Supp")
+                const userSession = (JSON.parse(sessionStorage.getItem("confirm")));
+                console.log(userSession);
+                const userIdSession = userSession.userId;
+                console.log(userIdSession);
+                console.log(data);
+                if(userIdSession == data){
+                    BTNSupp.show()
+                } else {
+                    BTNSupp.hide()
+                }
+            }
+        } 
+    }
+   
+}
 }
 </script>
 

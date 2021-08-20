@@ -1,6 +1,7 @@
 const sql = require("../models/db.js");
 const Article = require('../models/Article.models.js');
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 
 // Create and Save a new user
@@ -85,22 +86,63 @@ exports.update = (req, res) => {
     );
 };
 
+
+
+
 // Delete a user with the specified ArticleId in the request
 exports.delete = (req, res) => {
-    Article.remove(req.params.articleId, (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.DB_TOK);
+  const userId = decodedToken.userId;
+  console.log('TUTUTUTU', userId);
+
+
+  function faituntruc(data){
+    console.log('test fonction',data);
+    console.log('test id_user',data.id_user);
+        if (  data.id_user == userId ) { 
+          Article.remove(req.params.articleId, (err, data) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                res.status(404).send({
+                  message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+                });
+              } else {
+                res.status(500).send({
+                  message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
+                });
+              }
+            } else res.send({ message: `L'article a été supprimé !` });
           });
         } else {
-          res.status(500).send({
-            message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
-          });
+          console.log('HEY ! Tarretes');
+          res.status(400).send({
+            message: `pas content` })
         }
-      } else res.send({ message: `L'article a été supprimé !` });
-    });
-};
+    };
+
+
+  Article.findById(req.params.articleId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Erreur de récupération de l'article avec l'id " + req.params.articleId
+        });
+      }
+    } else {
+      faituntruc(data);
+      }
+    })
+    };
+
+
+
+  
+    
 
 
 // Delete all users from the database.

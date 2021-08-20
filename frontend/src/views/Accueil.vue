@@ -1,18 +1,31 @@
 <template>
-  <div>
-    <router-link class="col-10 offset-1 btn btn-dark mt-1 mb-1" to="/create"><span>Créer un post</span></router-link>
+<Navbar/>
+    <div>
+      <button class="offset-3 col-6 btn btn-primary mb-1 mt-1" @click="active = !active">Créer un post</button>
+      <div v-if="active" class="col-10 offset-1 text-center">
+        <CreatePost/>
+      </div>
+    </div>
     <Articles/>
-  </div>
 </template>
 
 <script>
 
 import Articles from '@/components/Articles.vue'
+import Navbar from '@/components/Navbar.vue'
+import CreatePost from '@/components/CreatePost.vue'
 
 export default {
   name: 'Accueil',
+  data() {
+    return {
+      active: true,
+    }
+  },
   components: {
-    Articles
+    Articles,
+    Navbar,
+    CreatePost
   },
 }
 </script>

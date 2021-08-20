@@ -16,7 +16,7 @@
 import axios from 'axios'
 
 export default {
-    name: "create" ,
+    name: "CreatePost" ,
     data() {
         return {
             titre: '',
@@ -43,7 +43,7 @@ export default {
             }) 
             .then(function(response) { 
                 console.log(response);
-                window.location.href ="/accueil"; 
+                document.location.reload(); 
             }) 
             .catch(function(error) { 
                 console.log(error); 

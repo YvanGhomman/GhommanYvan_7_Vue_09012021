@@ -1,6 +1,7 @@
 <template>
+
   <div class="home">
-    <img class="img d-flex col-4 offset-4" alt="Groupomania logo" src="../assets/icon-above-font.svg">
+    <img class="img d-flex col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12" alt="Groupomania logo" src="../assets/icon-above-font.svg">
     <div>
       <button class="offset-3 col-6 btn btn-primary mb-1 mt-1" @click="active = !active">S'inscrire</button>
       <div v-if="active" class="col-10 offset-1 text-center">
@@ -26,6 +27,7 @@
 import Signup from '@/components/Signup.vue'
 import Login from '@/components/Login.vue'
 
+
 export default {
   name: 'Home',
   data() {
@@ -42,7 +44,7 @@ export default {
 
 <style>
 .img {
-  height: 400px;
+  height: 600px;
   margin-top: -100px;
   margin-bottom: -100px;
 }

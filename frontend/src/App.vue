@@ -59,13 +59,7 @@ export default {
 <!-- COURS -->
 <template>
 	<div id="app">
-		<Navbar/>
-		<nav>
-			<!-- <router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link> |
-			<router-link to="/accueil">Accueil</router-link> -->
-			<!-- <NavLink url="/contact" text="Contact" /> -->
-		</nav>
+		
 		 <router-view/> 
 	</div>
 </template>
@@ -73,14 +67,13 @@ export default {
 
 <script>
 import NavLink from './components/NavLink.vue'
-import Navbar from './components/Navbar.vue'
+
 
 
 export default {
 	name: 'App',
 	components: {
 		NavLink,
-		Navbar
 		
 	}
 }
