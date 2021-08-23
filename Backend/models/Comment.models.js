@@ -3,9 +3,11 @@ const sql = require("./db.js");
 
 // constructor
 const Comment = function(client) {
-    this.commentaire = client.commentaire,
+    this.commentary = client.commentary,
     this.id_article = client.id_article,
     this.id_user = client.id_user;
+    this.user_name = client.user_name;
+    this.user_firstname = client.user_firstname;
 };
 
 
@@ -76,8 +78,8 @@ Comment.create = (newComment, result) => {
 
   Comment.updateById = (id, comment, result) => {
     sql.query(
-      "UPDATE commentaire SET commentaire = ? WHERE id = ?",
-      [comment.commentaire, id],
+      "UPDATE commentaire SET commentary = ? WHERE id = ?",
+      [comment.commentary, id],
       (err, res) => {
         if (err) {
           console.log("error: ", err);

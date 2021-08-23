@@ -37,8 +37,8 @@ Article.create = (newArticle, result) => {
     });
   };
 
-  Article.findById = /* async */ (articleId, result) => { 
-  /* let article =  await */ sql.query(`SELECT * FROM article WHERE id = ${articleId}`,  (err, res)  => { 
+  Article.findById = (articleId, result) => { 
+   sql.query(`SELECT * FROM article WHERE id = ${articleId}`,  (err, res)  => { 
       if (err) { 
         console.log("error: ", err);
         result(err, null);
@@ -54,7 +54,6 @@ Article.create = (newArticle, result) => {
       // not found article with the id
       result({ kind: "not_found" }, null);
     });
-    /* return article */
   };
 
 

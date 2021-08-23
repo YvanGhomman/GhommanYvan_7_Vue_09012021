@@ -19,7 +19,7 @@ export default {
   name: 'Accueil',
   data() {
     return {
-      active: true,
+      active: false,
     }
   },
   components: {

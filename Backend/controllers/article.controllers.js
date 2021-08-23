@@ -97,10 +97,10 @@ exports.delete = (req, res) => {
   console.log('TUTUTUTU', userId);
 
 
-  function faituntruc(data){
+  function verifUserandDel(data){
     console.log('test fonction',data);
     console.log('test id_user',data.id_user);
-        if (  data.id_user == userId ) { 
+        if ( data.id_user == userId ) { 
           Article.remove(req.params.articleId, (err, data) => {
             if (err) {
               if (err.kind === "not_found") {
@@ -115,9 +115,11 @@ exports.delete = (req, res) => {
             } else res.send({ message: `L'article a été supprimé !` });
           });
         } else {
-          console.log('HEY ! Tarretes');
-          res.status(400).send({
-            message: `pas content` })
+          res.status(404).send({
+            message: `Vous n'avez pas le droit !`
+          });
+          console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
+          
         }
     };
 
@@ -134,15 +136,10 @@ exports.delete = (req, res) => {
         });
       }
     } else {
-      faituntruc(data);
+      verifUserandDel(data);
       }
     })
-    };
-
-
-
-  
-    
+};
 
 
 // Delete all users from the database.

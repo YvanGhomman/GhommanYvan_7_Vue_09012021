@@ -14,8 +14,10 @@ exports.create = (req, res) => {
     }
 
     const comment = new Comment({
-        commentaire: req.body.commentaire,
+        commentary: req.body.commentary,
         id_article : req.body.id_article,
+        user_name: req.body.user_name,
+        user_firstname: req.body.user_firstname,
         id_user : req.body.id_user
       });
 

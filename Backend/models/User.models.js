@@ -45,7 +45,6 @@ User.create = (newUtilisateur, result) => {
         result(err, null);
         return;
       }
-  
       if (res.length) {
         console.log("found email: ", res[0]);
         result(null, res[0]);
