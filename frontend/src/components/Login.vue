@@ -61,7 +61,8 @@ export default {
                         userId: userId
                     }
                     console.log(result); 
-                    
+
+                    sessionStorage.setItem("isAdmin", confirmation.isAdmin);
                     sessionStorage.setItem("confirm", JSON.stringify(result));
                     sessionStorage.setItem("userId", confirmation.userId);
                     sessionStorage.setItem("token", confirmation.token);

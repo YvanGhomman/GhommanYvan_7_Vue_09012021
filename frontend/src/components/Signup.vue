@@ -69,7 +69,7 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
                     console.log(confirmation);
-
+                    sessionStorage.setItem("isAdmin", confirmation.isAdmin);
                     sessionStorage.setItem("userId", confirmation.userId);
                     sessionStorage.setItem("token", confirmation.token);
                     sessionStorage.setItem("userName", confirmation.userName);

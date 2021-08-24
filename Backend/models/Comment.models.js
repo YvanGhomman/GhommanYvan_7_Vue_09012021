@@ -2,12 +2,12 @@ const sql = require("./db.js");
 
 
 // constructor
-const Comment = function(client) {
-    this.commentary = client.commentary,
-    this.id_article = client.id_article,
-    this.id_user = client.id_user;
-    this.user_name = client.user_name;
-    this.user_firstname = client.user_firstname;
+const Comment = function(com) {
+    this.commentary = com.commentary,
+    this.id_article = com.id_article,
+    this.id_user = com.id_user;
+    this.user_name = com.user_name;
+    this.user_firstname = com.user_firstname;
 };
 
 

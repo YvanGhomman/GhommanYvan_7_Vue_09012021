@@ -25,11 +25,12 @@ exports.signup = (req, res, next) => {
               });
             else {
                   res.status(200).json({
+                    isAdmin: data.admin,
                     userId: data.id,
                     userName: data.name,
                     userFirstname: data.firstname,
                     token: jwt.sign(
-                      { userId: data.id},
+                      { userId: data.id, isAdmin: data.admin},
                       process.env.DB_TOK,
                       { expiresIn: '24h' }
                     )
@@ -59,13 +60,14 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           } else {
             res.status(200).json({
-            userId: data.id,
-            userName: data.name,
-            userFirstname: data.firstname,
-            token: jwt.sign(
-              { userId: data.id },
-              process.env.DB_TOK,
-              { expiresIn: '24h' }
+              isAdmin: data.admin,
+              userId: data.id,
+              userName: data.name,
+              userFirstname: data.firstname,
+              token: jwt.sign(
+                { userId: data.id, isAdmin: data.admin },
+                process.env.DB_TOK,
+                { expiresIn: '24h' }
             )
           });
           }

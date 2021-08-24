@@ -91,7 +91,7 @@ exports.update = (req, res) => {
 
 // Delete a user with the specified ArticleId in the request
 exports.delete = (req, res) => {
-  const token = req.headers.authorization.split(' ')[1];
+ /*  const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.DB_TOK);
   const userId = decodedToken.userId;
   console.log('TUTUTUTU', userId);
@@ -100,7 +100,7 @@ exports.delete = (req, res) => {
   function verifUserandDel(data){
     console.log('test fonction',data);
     console.log('test id_user',data.id_user);
-        if ( data.id_user == userId ) { 
+        if ( data.id_user == userId ) {  */
           Article.remove(req.params.articleId, (err, data) => {
             if (err) {
               if (err.kind === "not_found") {
@@ -114,17 +114,17 @@ exports.delete = (req, res) => {
               }
             } else res.send({ message: `L'article a été supprimé !` });
           });
-        } else {
+        /* } else {
           res.status(404).send({
             message: `Vous n'avez pas le droit !`
           });
           console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
           
-        }
+        } */
     };
 
 
-  Article.findById(req.params.articleId, (err, data) => {
+ /*  Article.findById(req.params.articleId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -138,8 +138,8 @@ exports.delete = (req, res) => {
     } else {
       verifUserandDel(data);
       }
-    })
-};
+    }) 
+};*/
 
 
 // Delete all users from the database.

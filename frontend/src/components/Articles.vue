@@ -9,7 +9,8 @@
                     <h5 class="card-title text-center">{{item.titre}}</h5>    
                     <p class="card-text text-center">{{item.contenu}}</p>
                     <a href="" class="col-5 offset-1 btn btn-dark"><span class="gradient">Voir détails</span></a>
-                    <a v-if="yo(item.id_user)" @click="deletePost(item.id)"  class="col-5 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
+                    <a v-if="item.id_user == userIdSession" @click="deletePost(item.id)"  class="col-5 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
+                    
                     <div>
                         <form class="row center mt-1 mb-1" id="checked">
                             <div class="space-form col-6">
@@ -18,8 +19,27 @@
                         </form>
                         <a @click="createComm(item.id)" class="offset-3 col-6 offset-3 center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
                     </div>
+
+                    <p>
+
+                        <button @click="getCom(item.id)" class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+item.id" aria-expanded="false" aria-controls="collapseExample">
+                            Button with data-target
+                        </button>
+                        </p>
+                        <div class="collapse" :id="'collapseExample'+item.id">
+                            <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
+                                <h5>{{comm.user_name}} {{comm.user_firstname}}</h5>
+                                <p>{{comm.commentary}}</p>
+                            </div>
+                        </div>
+                  
+                 
                 </div>
-            </div>
+              </div>
+          
+    
+                
+     
         </div>
     </div>
 </template>
@@ -38,6 +58,8 @@ export default {
             user_name: '',
             user_firstname: '',
             id_user: '',
+            userIdSession: sessionStorage.getItem("userId"),
+            commentaires: '',
             donnees: 
                 axios.get('http://localhost:3000/article', {
                     method: 'GET',
@@ -71,24 +93,6 @@ export default {
             });
         }},
 
-        yo(data){
-            return {
-                plouf(data){ 
-                    let BTNSupp = document.getElementsByClassName("Supp")
-                    const userSession = (JSON.parse(sessionStorage.getItem("confirm")));
-                    console.log(userSession);
-                    const userIdSession = userSession.userId;
-                    console.log(userIdSession);
-                    console.log(data);
-                    if(userIdSession == data){
-                        BTNSupp.show()
-                    } else {
-                        BTNSupp.hide()
-                    }
-                }
-            } 
-        },
-
          createComm(data) {
             const userName = sessionStorage.getItem("userName");
             const userFirstname = sessionStorage.getItem("userFirstname");
@@ -111,8 +115,16 @@ export default {
                 console.log(error); 
             });
             
-        }
-   
+        },
+        getCom(data){
+            axios.get("http://localhost:3000/comment/" +  data  + "/comment" )
+            .then((response) => {
+            this.commentaires = response.data;
+            console.log(this.commentaires);
+            })
+            .catch((err) => console.log("Erreur : " + err));
+
+        },
 }
 }
 </script>

@@ -2,12 +2,12 @@ const sql = require("./db.js");
 
 
 // constructor
-const Article = function(client) {
-    this.titre = client.titre;
-    this.contenu = client.contenu;
-    this.user_name = client.user_name;
-    this.user_firstname = client.user_firstname;
-    this.id_user = client.id_user;
+const Article = function(post) {
+    this.titre = post.titre;
+    this.contenu = post.contenu;
+    this.user_name = post.user_name;
+    this.user_firstname = post.user_firstname;
+    this.id_user = post.id_user;
 };
 
 
