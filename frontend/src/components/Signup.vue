@@ -1,26 +1,24 @@
 <template>
-    <form class="row" id="checked">
+    <form class="row" id="checked" v-if="mode == 'create'">
         <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputNom" placeholder="Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
+            <input type="text" v-model="name" class="form-control" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
         </div>
         <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputPrenom" placeholder="Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
+            <input type="text" v-model="firstname" class="form-control" id="inputPrenom" placeholder="👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
         </div>
         <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputJob" placeholder="Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
+            <input type="text" v-model="job" class="form-control" id="inputJob" placeholder="💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
         </div>
         <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputAdmin" placeholder="Admin" aria-label="Admin">
+            <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
-        <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputPassword" placeholder="Password" aria-label="Password" required>
+        <div class="space-form col-6 offset-3">
+            <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
-        <div class="space-form col-6">
-            <input type="email" class="form-control" id="inputEmail" placeholder="E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
-        </div>
+        
     </form>
     <div>
-        <a class="offset-8 col-4 center btn btn-dark mt-1" @click="sendSignup()"><span class="white">Valider</span></a>
+        <button class=" button_create " :class="{'button--disabled' : !validatedFields}" @click="sendSignup()"><span class="white">Valider</span></button>
     </div>
 </template>
 
@@ -29,6 +27,17 @@
 
 export default {
    name: 'Signup',
+   data() {
+    return {
+        mode: 'create',
+        name: '',
+        firstname: '',
+        position: '',
+        admin: '',
+        password: '',
+        email: '',
+    }
+  },
    methods: {
     sendSignup(){
 
@@ -87,10 +96,45 @@ export default {
         };
 }
 
-   }
+   },
+   computed: {
+    validatedFields: function () {
+        if (this.mode == 'create') {
+        if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "" && this.job != "") {
+          return true;
+        } else {
+          return false;
+        }}
+      }
+    },
 }
 </script>
 
 <style >
 
+
+.button_create {
+    background: #2196F3;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+  }
+
+  .button:hover {
+    cursor:pointer;
+    background: #1976D2;
+  }
+  .button--disabled {
+    background:#cecece;
+    color:#ececec
+  }
+  .button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+  }
 </style>

@@ -1,14 +1,15 @@
 <template>
-    <form class="row" id="checked">
+    <form class="row" id="checked" v-if="mode == 'login'">
+        
         <div class="space-form col-6">
-            <input type="text" class="form-control" id="inputPassword" placeholder="Password" aria-label="Password" required>
+            <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
         <div class="space-form col-6">
-            <input type="email" class="form-control" id="inputEmail" placeholder="E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
+            <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
     </form>
     <div>
-        <a href="#" class="offset-8 col-4 center btn btn-dark mt-1" @click="sendLogin()"><span class="white" >Valider</span></a>
+        <button class="button_login" :class="{'button--disabled' : !validatedFields}" @click="sendLogin()"><span class="white" >Valider</span></button>
     </div>
 </template>
 
@@ -17,6 +18,17 @@
 
 export default {
    name: 'Login',
+   data() {
+    return {
+        mode: 'login',
+        name: '',
+        firstname: '',
+        position: '',
+        admin: '',
+        password: '',
+        email: '',
+    }
+  },
    methods: {
        sendLogin(){
 
@@ -81,10 +93,44 @@ export default {
         };
 }
 
-   }
+   },
+   computed: {
+    validatedFields: function () {
+        if (this.mode == 'login') {
+        if (this.email != "" && this.password != "") {
+          return true;
+        } else {
+          return false;
+        }}
+      }
+    },
 }
 </script>
 
-<style >
+<style>
 
+.button_login {
+    background: #2196F3;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+  }
+
+  .button:hover {
+    cursor:pointer;
+    background: #1976D2;
+  }
+  .button--disabled {
+    background:#cecece;
+    color:#ececec
+  }
+  .button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+  }
 </style>

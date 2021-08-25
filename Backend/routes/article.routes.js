@@ -7,11 +7,11 @@ const authArticle = require('../middleware/authArticle');
 const articleCtrl = require('../controllers/article.controllers.js');
 
 
-router.post('/', /*auth, */  articleCtrl.create);
-router.get('/', /*auth, */  articleCtrl.findAll);
-router.get('/:articleId', auth, authArticle,  articleCtrl.findOne);
-router.put('/:articleId',  auth, authArticle,   articleCtrl.update);
-router.delete('/:articleId',  auth, authArticle,  articleCtrl.delete);
+router.post('/', articleCtrl.create);
+router.get('/', auth, articleCtrl.findAll);
+router.get('/:articleId', auth, authArticle, articleCtrl.findOne);
+router.put('/:articleId',  auth, authArticle, articleCtrl.update);
+router.delete('/:articleId',  auth, authArticle, articleCtrl.delete);
 /* router.delete('/', auth, articleCtrl.deleteAll); */
 
 
