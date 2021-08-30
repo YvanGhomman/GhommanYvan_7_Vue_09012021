@@ -7,7 +7,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta:{
-      title: "Maison"
+      title: "Bienvenue sur Groupomania"
     }
   },
   {
@@ -29,7 +29,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     meta:{
-      title: "À propos"
+      title: "Votre Profil"
     }
   }
 ]

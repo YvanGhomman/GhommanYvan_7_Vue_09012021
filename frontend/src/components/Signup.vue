@@ -83,6 +83,8 @@ export default {
                     sessionStorage.setItem("token", confirmation.token);
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
+                    sessionStorage.setItem("job", confirmation.job);
+                    sessionStorage.setItem("email", confirmation.email);
                     console.log(sessionStorage);
                     window.location.href ="./accueil";
 
@@ -94,7 +96,7 @@ export default {
                 }
             });
         };
-}
+    }
 
    },
    computed: {

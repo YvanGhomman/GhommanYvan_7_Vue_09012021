@@ -8,6 +8,7 @@ const Article = function(post) {
     this.user_name = post.user_name;
     this.user_firstname = post.user_firstname;
     this.id_user = post.id_user;
+    this.imageUrl = post.imageUrl;
 };
 
 

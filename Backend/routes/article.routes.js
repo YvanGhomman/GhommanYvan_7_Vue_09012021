@@ -5,9 +5,12 @@ const auth = require('../middleware/auth');
 const authArticle = require('../middleware/authArticle');
 
 const articleCtrl = require('../controllers/article.controllers.js');
+/* const multer = require('../middleware/multer-config'); */
+const multer = require('multer');
+const upload = multer({ dest: '../public/upload/' });
 
 
-router.post('/', articleCtrl.create);
+router.post('/', upload.single("imageUrl"),  /* multer */ articleCtrl.create);
 router.get('/', auth, articleCtrl.findAll);
 router.get('/:articleId', auth, authArticle, articleCtrl.findOne);
 router.put('/:articleId',  auth, authArticle, articleCtrl.update);

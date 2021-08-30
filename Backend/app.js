@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+var cors = require('cors')
 
 const path = require('path');
 
@@ -15,7 +16,7 @@ const articleComments = require("./routes/comment.routes.js");
 
 
 const app = express();
-
+app.use(cors())
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Request-Headers, Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -37,6 +38,8 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/user', userRoutes);
 app.use('/article', articleRoutes);

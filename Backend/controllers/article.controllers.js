@@ -4,6 +4,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 
+
 // Create and Save a new user
 exports.create = (req, res) => {
     // Validate request
@@ -12,14 +13,20 @@ exports.create = (req, res) => {
         message: "Le champ ne peut pas être vide !"
       });
     }
-
+    let imageUrl = null
+ if (req.file != undefined) {
+        imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    }
+    
     const article = new Article({
         titre: req.body.titre,
         contenu: req.body.contenu,
         user_name: req.body.user_name,
         user_firstname: req.body.user_firstname,
-        id_user: req.body.id_user
+        id_user: req.body.id_user,
+        imageUrl: imageUrl,
       });
+     
 
     Article.create(article, (err, data) => {
         if (err)

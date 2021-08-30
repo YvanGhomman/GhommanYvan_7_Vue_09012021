@@ -6,6 +6,8 @@
                     <h5 class="card-title text-center">{{item.user_name}} {{item.user_firstname}}</h5>
                     <h5 class="card-title text-center">{{item.titre}}</h5>    
                     <p class="card-text text-center">{{item.contenu}}</p>
+                    <img v-if="item.imageUrl" :src="item.imageUrl" alt="">
+                    <p>{{item.imageUrl}}</p>
                     <a href="" class="col-5 offset-1 btn btn-dark"><span class="gradient">Voir détails</span></a>
                     <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class="col-5 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
                     <p>

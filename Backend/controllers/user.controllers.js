@@ -29,6 +29,8 @@ exports.signup = (req, res, next) => {
                     userId: data.id,
                     userName: data.name,
                     userFirstname: data.firstname,
+                    job: data.job,
+                    email: data.email,
                     token: jwt.sign(
                       { userId: data.id, isAdmin: data.admin},
                       process.env.DB_TOK,
@@ -64,6 +66,8 @@ exports.login = (req, res, next) => {
               userId: data.id,
               userName: data.name,
               userFirstname: data.firstname,
+              job: data.job,
+              email: data.email,
               token: jwt.sign(
                 { userId: data.id, isAdmin: data.admin },
                 process.env.DB_TOK,
@@ -124,7 +128,7 @@ exports.update = (req, res, next) => {
         name: req.body.name,
         firstname: req.body.firstname,
         job: req.body.job,
-        admin: req.body.admin
+        admin: 0
       });
   
     User.updateById(req.params.userId, utilisateur, (err, data) => {
