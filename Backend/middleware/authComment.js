@@ -19,10 +19,10 @@ module.exports = (req, res, next) => {
         console.log(data);
         console.log(data[0].id_user);
         if ((data[0].id_user === userId) || isAdmin === 1) {
-            console.log("action autorisé");
+            console.log("action autorisée");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
+            res.status(403).json({ message: "Action non autorisée" });
 
             console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
         }

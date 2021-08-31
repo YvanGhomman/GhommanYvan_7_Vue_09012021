@@ -1,5 +1,5 @@
 <template>
-<div class="footer">
+<div class="footer fixed-bottom">
 
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark space-between">

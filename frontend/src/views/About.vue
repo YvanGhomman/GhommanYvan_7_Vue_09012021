@@ -12,8 +12,76 @@
             <h2 class="article-content">Poste : {{job}}</h2>
             <h2 class="article-content">E-mail : {{email}}</h2>
             
-            <div class="row col-10 offset-1">
-                    <p>
+            
+
+                <div class="container">
+                    
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" id="btnModal" class="btn btn-secondary btn-lg col-4" data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                        
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close btn btn-danger" data-dismiss="modal">X</button>
+                                <h5 class="modal-title">Saisissez votre mot de passe</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row" id="checked" >
+                                    <div class="space-form col-6 offset-3">
+                                        <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+                                    </div>
+                                </form>
+                                <a @click="checkProfil()" class="btn btn-dark col-4 offset-4 m-2" id="modif">Valider</a>
+                            </div>
+                            
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+                <div v-if="profil===true" class="row col-10 offset-1">
+
+                    <button class="btn btn-primary col-4 offset-4 mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Modifier
+                    </button>
+ 
+                    <div class="collapse" id="collapseExample">
+                        <div>
+                            <form class="row" id="checked" >
+                                <div class="space-form col-6 offset-3">
+                                    <input type="text" v-model="userName" class="form-control" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
+                                </div>
+                                
+                                <div class="space-form col-6 offset-3">
+                                    <input type="text" v-model="userFirstname" class="form-control" id="inputPrenom" placeholder= "👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
+                                </div>
+                                <div class="space-form col-6 offset-3">
+                                    <input type="text" v-model="job" class="form-control" id="inputJob" placeholder= "💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
+                                </div>
+                                <div class="space-form col-6 offset-3">
+                                    <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder= "📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
+                                </div>
+                                <div class="space-form col-6 offset-3">
+                                    <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+                                </div>
+                            </form>
+                            <a @click="updateProfil()" class="btn btn-dark col-4 offset-4  m-2" id="modif">Valider</a>
+                        </div>
+                    </div>
+
+                    <button @click="deleteProfil(id)" class="btn btn-danger col-4 offset-4 mt-2 mb-2" id="suppr">Supprimer</button>
+                </div>
+
+
+            </div>
+                    <!-- <p>
                         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Modifier
                         </button>
@@ -39,14 +107,18 @@
                               </div>
                               
                             </form>
+
+                            
+
+
+
                             <a @click="updateProfil()" class="btn btn-dark col-4 offset-4  m-2" id="modif">Valider</a>
                         </div>
-                    </div>
+                    </div> -->
 
               
-              <a @click="deleteProfil(id)" class="btn btn-danger col-4 offset-4  m-2" id="suppr">Supprimer</a>
-            </div>
-        </div>
+              
+
         </div>
         <Footer/>
     </div>
@@ -70,6 +142,7 @@ export default {
       job: sessionStorage.getItem("job"),
       id: sessionStorage.getItem("userId"),
       email: sessionStorage.getItem("email"),
+      profil: ""
     }
     
   },
@@ -78,6 +151,50 @@ export default {
     Footer
   },
   methods: {
+        checkProfil(){
+            let FormValid = document.getElementById('checked').checkValidity();
+            if (FormValid == false ) {
+                alert(`Vous n'avez pas rempli tous les champs requis !`);
+            }else{
+            
+            //variable qui reccueille les infos de contact du client
+                let contact = {
+                    password : document.getElementById('inputPassword').value,
+                    email : sessionStorage.getItem("email")
+                }; 
+                console.log(contact);
+                
+            //on POST les infos reccueillies au serveur
+                const envoi =  fetch("http://localhost:3000/user/login", {
+                method: 'POST',
+                body: JSON.stringify(contact),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            //traitement de la réponse du serveur
+                envoi.then(async response =>{
+                    try{
+                        console.log(response);
+                    //récupération de la réponse du serveur
+                        let confirmation = await response.json();
+                        console.log(confirmation);
+                        document.querySelector(".modal-backdrop").remove()
+                        document.getElementById('btnModal').remove()
+                        document.getElementById('myModal').remove()
+                        this.profil = true
+                        
+                //traitement des erreurs
+                    } catch (error) {
+                        console.log(error);
+                        alert("Un problème est survenu, merci de réessayer plus tard");
+                    }
+                });
+            };
+
+        },
+
+
     deleteProfil(data) {
            if(confirm("Supprimer le profil ?")){
              const user_id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;

@@ -8,7 +8,7 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './images');
+    callback(null, '../images');
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');
@@ -19,6 +19,8 @@ const storage = multer.diskStorage({
 });
 
 module.exports = multer({storage: storage}).single('image');
+
+
 /* 
 // Création du diskStorage de multer, il permet de définir notre configuration d'upload
 // /!\ Créez les dossiers de destination au cas où avant l'upload

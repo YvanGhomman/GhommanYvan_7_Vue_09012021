@@ -5,19 +5,14 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     try{
-        console.log("Coucou on est dans authArticle");
+        console.log("Coucou on est dans authAdmin");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
-    const userId = decodedToken.userId;
-    console.log("userToken",userId);
+
     const isAdmin = decodedToken.isAdmin;
-    console.log("Admin",isAdmin);
-    console.log("idArticle de req.params", req.params.articleId);
-    
-    sql.query(`SELECT * FROM article WHERE id = ${req.params.articleId}`, (err, data) => {
-        console.log(data);
-        console.log(data[0].id_user);
-        if ((data[0].id_user === userId) || isAdmin === 1) {
+    console.log("Admin", isAdmin);
+
+            if (isAdmin === 1) {
             console.log("action autorisée");
             next();
         } else {
@@ -25,7 +20,7 @@ module.exports = (req, res, next) => {
 
             console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
         }
-    });
+    
     }
     catch{
         res.status(401).json({error: error | 'Requête non authentifiée !'});

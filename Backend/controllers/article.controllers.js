@@ -14,7 +14,7 @@ exports.create = (req, res) => {
       });
     }
     let imageUrl = null
- if (req.file != undefined) {
+ if (req.file /* != undefined */) {
         imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     }
     
@@ -24,7 +24,7 @@ exports.create = (req, res) => {
         user_name: req.body.user_name,
         user_firstname: req.body.user_firstname,
         id_user: req.body.id_user,
-        imageUrl: imageUrl,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.imageUrl}`,
       });
      
 

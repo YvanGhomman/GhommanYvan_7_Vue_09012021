@@ -3,16 +3,19 @@ const router = express.Router();
 
 const userCtrl = require('../controllers/user.controllers.js');
 const vpass = require('../middleware/validate-password');
+const auth = require('../middleware/auth');
+const authUser = require('../middleware/authUser');
+const authAdmin = require('../middleware/authAdmin');
 
 router.post('/signup', vpass,  userCtrl.signup);
 router.post('/login', userCtrl.login);
 
 //Admin
-router.get('/', userCtrl.findAll);
-router.get('/:userId', userCtrl.findOne);
-router.put('/:userId', vpass, userCtrl.update);
-router.delete('/:userId', userCtrl.delete);
-router.delete('/', userCtrl.deleteAll);
+router.get('/', auth, authAdmin, userCtrl.findAll);
+router.get('/:userId', auth, authUser, userCtrl.findOne);
+router.put('/:userId', auth, authUser, vpass, userCtrl.update);
+router.delete('/:userId', auth, authUser, userCtrl.delete);
+/* router.delete('/', userCtrl.deleteAll); */
 
 
 module.exports = router;
