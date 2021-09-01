@@ -69,7 +69,7 @@
                             <div class="modal-body">
                                 <form class="row" id="checked" >
                                     <div class="space-form col-6 offset-3">
-                                        <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+                                        <input type="password" v-model="password" class="form-control" id="inputPassword2" placeholder="🔐 Password" aria-label="Password" required>
                                     </div>
                                 </form>
                                 <a @click="checkProfil()" class="btn btn-dark col-4 offset-4 m-2" id="modif">Valider</a>
@@ -170,7 +170,7 @@ export default {
             
             //variable qui reccueille les infos de contact du client
                 let contact = {
-                    password : document.getElementById('inputPassword').value,
+                    password : document.getElementById('inputPassword2').value,
                     email : sessionStorage.getItem("email")
                 }; 
                 console.log(contact);
@@ -190,11 +190,15 @@ export default {
                     //récupération de la réponse du serveur
                         let confirmation = await response.json();
                         console.log(confirmation);
+                        if (confirmation.error){
+                            console.log("error")
+                            window.location.href= "/about";
+                        }else{
                         document.querySelector(".modal-backdrop").remove()
                         document.getElementById('btnModal').remove()
                         document.getElementById('myModal').remove()
                         this.profil = true
-                        
+                        }
                 //traitement des erreurs
                     } catch (error) {
                         console.log(error);
