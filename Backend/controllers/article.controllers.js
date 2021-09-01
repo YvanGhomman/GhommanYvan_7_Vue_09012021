@@ -67,6 +67,23 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.findArticleWithUserId = (req, res) =>{
+  Article.findByUserId(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `L'article avec le user_id ${req.params.userId} n'a pas été trouvé.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Erreur de récupération de l'article avec le user_id " + req.params.userId
+        });
+      }
+    } else res.send(data);
+  });
+
+}
+
 // Update a user identified by the userId in the request
 exports.update = (req, res) => {
   // Validate Request

@@ -3,10 +3,47 @@
         <Navbar/> 
         <div class="container">
           <div>
-    <img class="img d-flex col-4 offset-4" alt="Groupomania logo" src="../assets/icon-above-font.svg">
+            <img class="img d-flex col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12" alt="Groupomania logo" src="../assets/icon-above-font.svg">
           </div>
-        <div class="card text-center pt-4 pb-4"> 
-            <h1 class="text-center card__title--user">Profil</h1>
+
+        <div v-if="isAdmin == 1"  class="text-center d-flex justify-content-center">
+            <div class="col-lg-6  col-md-8 o col-12 ">
+                <h1>Liste des Profils</h1>
+                <div class="mt-2 mb-2 " v-if="utilisateurs" v-for="user in utilisateurs" :key="user.id">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h2 class="article-content text-success" v-if="user.admin == 1">Admin</h2>
+                            <h3 class="">Nom : {{user.name}}</h3>
+                            <h3 class="article-content">Prénom : {{user.firstname}}</h3>
+                            <h3 class="article-content">Poste : {{user.job}}</h3>
+                            <h3 class="article-content">E-mail : {{user.email}}</h3>
+
+                            <a @click="getPosts(user.id)" class="col-4 btn btn-primary m-4" type="button" data-toggle="collapse" :data-target="'#collapseExample2'+user.id" aria-expanded="false" aria-controls="collapseExample">
+                                Posts
+                            </a>
+
+
+                            <a v-if="isAdmin == 1" @click="deleteProfilAdmin(user.id)"  class="col-4 btn btn-danger m-4"><span>Supprimer</span></a>
+                            
+
+                            <div class="collapse" :id="'collapseExample2'+user.id">
+                                <div class="card card-body" v-if="posts" v-for="post in posts" :key="post.id">
+                                    <h5>{{post.user_name}} {{post.user_firstname}}</h5>
+                                    <p>{{post.titre}}</p>
+                                    <p>{{post.contenu}}</p>
+                                    <a v-if="isAdmin == 1" @click="deletePostAdmin(post.id)"  class=" offset-8 col-4 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div v-if="isAdmin == 0" class="card text-center pt-4 pb-4"> 
+            <h1 class="text-center">Votre Profil</h1>
             <h2 class="">Nom : {{userName}}</h2>
             <h2 class="article-content">Prénom : {{userFirstname}}</h2>
             <h2 class="article-content">Poste : {{job}}</h2>
@@ -75,51 +112,13 @@
                             <a @click="updateProfil()" class="btn btn-dark col-4 offset-4  m-2" id="modif">Valider</a>
                         </div>
                     </div>
-
                     <button @click="deleteProfil(id)" class="btn btn-danger col-4 offset-4 mt-2 mb-2" id="suppr">Supprimer</button>
                 </div>
-
-
-            </div>
-                    <!-- <p>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Modifier
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                        <div>
-                            <form class="row" id="checked" >
-                              <div class="space-form col-6 offset-3">
-                                  <input type="text" v-model="userName" class="form-control" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
-                              </div>
-                              
-                              <div class="space-form col-6 offset-3">
-                                  <input type="text" v-model="userFirstname" class="form-control" id="inputPrenom" placeholder= "👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
-                              </div>
-                              <div class="space-form col-6 offset-3">
-                                  <input type="text" v-model="job" class="form-control" id="inputJob" placeholder= "💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
-                              </div>
-                              <div class="space-form col-6 offset-3">
-                                  <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder= "📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
-                              </div>
-                              <div class="space-form col-6 offset-3">
-                                  <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
-                              </div>
-                              
-                            </form>
-
-                            
-
-
-
-                            <a @click="updateProfil()" class="btn btn-dark col-4 offset-4  m-2" id="modif">Valider</a>
-                        </div>
-                    </div> -->
-
-              
-              
-
+            </div>             
         </div>
+
+
+
         <Footer/>
     </div>
 </template>
@@ -136,13 +135,25 @@ export default {
   name: 'About',
   data(){
     return{
-
-      userName: sessionStorage.getItem("userName"),
-      userFirstname: sessionStorage.getItem("userFirstname"),
-      job: sessionStorage.getItem("job"),
-      id: sessionStorage.getItem("userId"),
-      email: sessionStorage.getItem("email"),
-      profil: ""
+        userName: sessionStorage.getItem("userName"),
+        userFirstname: sessionStorage.getItem("userFirstname"),
+        job: sessionStorage.getItem("job"),
+        id: sessionStorage.getItem("userId"),
+        email: sessionStorage.getItem("email"),
+        profil: "",
+        posts:"",
+        isAdmin: VueJwtDecode.decode(sessionStorage.getItem("token")).isAdmin,
+        utilisateurs: axios.get('http://localhost:3000/user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                    }
+                })
+                    .then((response) => {
+                    console.log(response.data);
+                    console.log(sessionStorage);
+                    this.utilisateurs = response.data
+                    })
     }
     
   },
@@ -259,7 +270,36 @@ export default {
                 }
             });
         };
-    }
+    },
+    deleteProfilAdmin(data) {
+           if(confirm("Supprimer le profil ?")){
+               axios.delete('http://localhost:3000/user/' + data, {
+                   method: "DELETE",
+                   headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                }})
+               .then(function(response) {
+                    console.log(response);
+                    window.location.href= "/about";
+                })
+                .catch(function(error) {
+                    console.log(error);
+                }); 
+           }
+       },
+       getPosts(data){
+            this.posts = "";
+            axios.get("http://localhost:3000/article/article/" + data, {
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                }})
+            .then((response) => {
+            this.posts = response.data;
+            console.log(this.posts);
+            })
+            .catch((err) => console.log("Erreur : " + err));
+
+        },
   }
 }
 </script>
@@ -269,6 +309,14 @@ export default {
   height: 600px;
   margin-top: -100px;
   margin-bottom: -100px;
+}
+.card {
+  max-width: 100%;
+  display: flex;
+  align-content: center;
+  background-color: #e9e9e9;
+  border-radius: 16px;
+  padding:32px;
 }
 
 </style>

@@ -11,10 +11,10 @@ module.exports = (req, res, next) => {
 
     const isAdmin = decodedToken.isAdmin;
     console.log("Admin", isAdmin);
-
-            if (isAdmin === 1) {
-            console.log("action autorisée");
-            next();
+    
+        if (isAdmin === 1) {
+        console.log("action autorisée");
+        next();
         } else {
             res.status(403).json({ message: "Action non autorisée" });
 

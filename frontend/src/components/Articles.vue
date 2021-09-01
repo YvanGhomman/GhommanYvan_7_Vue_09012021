@@ -30,8 +30,6 @@
                             <a @click="createComm(item.id)" class="offset-3 col-6 offset-3 center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
                         </div>
                     </div>
-                  
-                 
                 </div>
               </div>
         </div>
@@ -115,6 +113,7 @@ export default {
         },
 
         getCom(data){
+            this.commentaires = "";
             axios.get("http://localhost:3000/comment/" +  data  + "/comment", {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")

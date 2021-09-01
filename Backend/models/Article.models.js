@@ -57,6 +57,25 @@ Article.create = (newArticle, result) => {
     });
   };
 
+  Article.findByUserId = (userId, result) => { 
+    sql.query(`SELECT * FROM article WHERE id_user = ${userId}`,  (err, res)  => { 
+       if (err) { 
+         console.log("error: ", err);
+         result(err, null);
+         return;
+       }
+   
+       if (res.length) {
+         console.log("found article: ", res);
+         result(null, res);
+         return res;
+       }
+   
+       // not found article with the id
+       result({ kind: "not_found" }, null);
+     });
+   };
+
 
   Article.updateById = (id, article, result) => {
     sql.query(

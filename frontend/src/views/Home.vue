@@ -33,7 +33,6 @@ export default {
   name: 'Home',
   data() {
     return {
-      active: true,
       mode: 'login',
     }
   },
@@ -49,16 +48,7 @@ export default {
       this.mode = 'login';
     },
   },
-  computed: {
-    validatedFields: function () {
 
-        if (this.email != "" && this.password != "") {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    },
 }
 </script>
 
@@ -68,9 +58,7 @@ export default {
   margin-top: -100px;
   margin-bottom: -100px;
 }
-.main {
-  background: linear-gradient(160deg, #e78b07 0%, #8f5bfe 100%);
-}
+
   .form-row {
     display: flex;
     margin: 16px 0px;
@@ -92,7 +80,6 @@ export default {
     color:#aaaaaa;
   }
   
-
 .card {
   max-width: 100%;
   display: flex;
@@ -111,7 +98,6 @@ export default {
   color:#666;
   font-weight: 500;
 }
-
 
   .card_action {
     color:#2196F3;
