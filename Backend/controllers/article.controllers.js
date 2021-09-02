@@ -2,30 +2,27 @@ const sql = require("../models/db.js");
 const Article = require('../models/Article.models.js');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 
 
 // Create and Save a new user
 exports.create = (req, res) => {
-    // Validate request
-    if (!req.body) {
-      res.status(400).send({
-        message: "Le champ ne peut pas être vide !"
-      });
-    }
-    let imageUrl = null
- if (req.file /* != undefined */) {
-        imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    }
-    
-    const article = new Article({
-        titre: req.body.titre,
-        contenu: req.body.contenu,
-        user_name: req.body.user_name,
-        user_firstname: req.body.user_firstname,
-        id_user: req.body.id_user,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.imageUrl}`,
-      });
+
+  if (!req.body) {
+    res.status(400).send({
+      message: "Le champ ne peut pas être vide !"
+    })};
+
+  const article = new Article({
+    titre: req.body.titre,
+    contenu: req.body.contenu,
+    user_name: req.body.user_name,
+    user_firstname: req.body.user_firstname,
+    id_user: req.body.id_user,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+  });
+
      
 
     Article.create(article, (err, data) => {
@@ -112,19 +109,24 @@ exports.update = (req, res) => {
 
 
 
-
 // Delete a user with the specified ArticleId in the request
 exports.delete = (req, res) => {
- /*  const token = req.headers.authorization.split(' ')[1];
-  const decodedToken = jwt.verify(token, process.env.DB_TOK);
-  const userId = decodedToken.userId;
-  console.log('TUTUTUTU', userId);
 
-
-  function verifUserandDel(data){
-    console.log('test fonction',data);
-    console.log('test id_user',data.id_user);
-        if ( data.id_user == userId ) {  */
+  Article.findById(req.params.articleId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Erreur de récupération de l'article avec l'id " + req.params.articleId
+        });
+      }
+    } else{ 
+        const filename = data.imageUrl.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          
           Article.remove(req.params.articleId, (err, data) => {
             if (err) {
               if (err.kind === "not_found") {
@@ -138,32 +140,21 @@ exports.delete = (req, res) => {
               }
             } else res.send({ message: `L'article a été supprimé !` });
           });
-        /* } else {
-          res.status(404).send({
-            message: `Vous n'avez pas le droit !`
-          });
-          console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
+    
+    
+        });
+    
+
+    }
+  })
+  
+
+
+
           
-        } */
+
     };
 
-
- /*  Article.findById(req.params.articleId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Erreur de récupération de l'article avec l'id " + req.params.articleId
-        });
-      }
-    } else {
-      verifUserandDel(data);
-      }
-    }) 
-};*/
 
 
 // Delete all users from the database.
