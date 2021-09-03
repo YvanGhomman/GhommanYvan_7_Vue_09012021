@@ -1,19 +1,23 @@
 <template>
-    <form class="row" id="checked" v-if="mode == 'create'">
-        <div class="space-form col-6">
-            <input type="text" v-model="name" class="form-control" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
+    <form enctype="multipart/form-data" class="row" id="checked" v-if="mode == 'create'">
+        <div class="form-group">
+                <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
+                <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+            </div>
+        <div class="space-form col-6 form-group">
+            <input type="text" v-model="name" class="form-control" formControlName="name" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6">
-            <input type="text" v-model="firstname" class="form-control" id="inputPrenom" placeholder="👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
+        <div class="space-form col-6 form-group">
+            <input type="text" v-model="firstname" class="form-control" formControlName="firstname" id="inputPrenom" placeholder="👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6">
-            <input type="text" v-model="job" class="form-control" id="inputJob" placeholder="💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
+        <div class="space-form col-6 form-group">
+            <input type="text" v-model="job" class="form-control" formControlName="job" id="inputJob" placeholder="💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6">
-            <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
+        <div class="space-form col-6 form-group">
+            <input type="email" v-model="email" class="form-control" formControlName="email" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
-        <div class="space-form col-6 offset-3">
-            <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+        <div class="space-form col-6 offset-3 form-group">
+            <input type="text" v-model="password" class="form-control" formControlName="password" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
         
     </form>
@@ -23,22 +27,43 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 
 export default {
+
+
    name: 'Signup',
    data() {
     return {
         mode: 'create',
         name: '',
         firstname: '',
-        position: '',
+        job: '',
         admin: '',
         password: '',
         email: '',
+        imagePreview:'',
+        profilPic:''
     }
   },
    methods: {
+
+       onFileAdded(event){
+            const imageInput = document.querySelector('input[type="file"]')
+            const file = imageInput.files[0];
+            console.log(file);
+            this.profilPic = file;
+            console.log(this.profilPic);
+            
+            /* imageInput.setValue(file); */
+           /*  this.sauceForm.updateValueAndValidity(); */
+            const reader = new FileReader();
+            reader.onload = () => {
+            this.imagePreview = reader.result ;
+            };
+            reader.readAsDataURL(file);
+        },
+
     sendSignup(){
 
     //on verifie que la checkbox est checked
@@ -54,30 +79,60 @@ export default {
         }else{
         
         //variable qui reccueille les infos de contact du client
-            let contact = {
+             /* let contact = {
                 firstname : document.getElementById('inputPrenom').value,
                 name : document.getElementById('inputNom').value,
                 job : document.getElementById('inputJob').value,
                 password : document.getElementById('inputPassword').value,
-                email : document.getElementById('inputEmail').value
+                email : document.getElementById('inputEmail').value,
+                profilPic: this.pic
             }; 
-            console.log(contact);
+            console.log(contact); */
+            console.log(this.profilPic);
+            const firstname = document.getElementById('inputPrenom').value;
+            const name = document.getElementById('inputNom').value;
+            const job = document.getElementById('inputJob').value;
+            const password = document.getElementById('inputPassword').value;
+            const email = document.getElementById('inputEmail').value;
+            const profilPic = this.profilPic
+
+            
+            const formData = new FormData();
+            formData.append('profilPic', profilPic);
+            formData.append('firstname', firstname);
+            formData.append('name', name);
+            formData.append('job', job);
+            formData.append('password', password);
+            formData.append('email', email);
+            console.log(formData);
 
         //on POST les infos reccueillies au serveur
-            const envoi = fetch("http://localhost:3000/user/signup", {
-                method: 'POST',
-                body: JSON.stringify(contact),
+            axios.post("http://localhost:3000/user/signup", formData ,  {
+
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+                     'Authorization': 'Bearer ', 
+                     'content-Type': 'multipart/form-data'
+                    /*  'Content-type':'application/json' */
+                },
+                /* firstname : document.getElementById('inputPrenom').value,
+                name : document.getElementById('inputNom').value,
+                job : document.getElementById('inputJob').value,
+                password : document.getElementById('inputPassword').value,
+                email : document.getElementById('inputEmail').value,
+                profilPic: this.pic */
+
+            })
         //traitement de la réponse du serveur
-            envoi.then(async response =>{
-                try{
-                    console.log(response);
+            .then(async function(response){
+                
+                    console.log(response.data);
                 //récupération de la réponse du serveur
-                    let confirmation = await response.json();
+                    let confirmation =  await  response.data;
                     console.log(confirmation);
+                    /* if (confirmation.error){
+                            console.log("error")
+                            alert("Invalide :"+ confirmation.message)
+                    }else{ */
                     sessionStorage.setItem("isAdmin", confirmation.isAdmin);
                     sessionStorage.setItem("userId", confirmation.userId);
                     sessionStorage.setItem("token", confirmation.token);
@@ -85,15 +140,15 @@ export default {
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
                     sessionStorage.setItem("job", confirmation.job);
                     sessionStorage.setItem("email", confirmation.email);
+                    sessionStorage.setItem("profilPic", confirmation.profilPic);
                     console.log(sessionStorage);
                     window.location.href ="./accueil";
 
-                    
+                    /* } */
             //traitement des erreurs
-                } catch (error) {
-                    console.log(error);
-                    alert("Un problème est survenu, merci de réessayer plus tard");
-                }
+                
+            }).catch(function(error) { 
+                console.log(error); 
             });
         };
     }
@@ -102,7 +157,7 @@ export default {
    computed: {
     validatedFields: function () {
         if (this.mode == 'create') {
-        if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "" && this.job != "") {
+        if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "" && this.job != "" && this.profilPic !="") {
           return true;
         } else {
           return false;

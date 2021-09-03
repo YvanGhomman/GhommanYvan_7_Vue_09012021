@@ -10,6 +10,7 @@ const User = function(client) {
     this.firstname = client.firstname;
     this.job = client.job;
     this.admin = client.admin;
+    this.profilPic= client.profilPic;
 };
 
 User.create = (newUtilisateur, result) => {
@@ -77,8 +78,8 @@ User.create = (newUtilisateur, result) => {
 
   User.updateById = (id, user, result) => {
     sql.query(
-      "UPDATE user SET email = ?, password = ?, name = ?, firstname = ?, job = ?, admin = ? WHERE id = ?",
-      [user.email, user.password, user.name, user.firstname, user.job, user.admin, id],
+      "UPDATE user SET email = ?, password = ?, name = ?, firstname = ?, job = ?, admin = ?, profilPic = ? WHERE id = ?",
+      [user.email, user.password, user.name, user.firstname, user.job, user.admin, user.profilPic, id],
       (err, res) => {
         if (err) {
           console.log("error: ", err);

@@ -64,6 +64,10 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
                     console.log(confirmation);
+                    if (confirmation.error){
+                            console.log("error")
+                            alert("Mot de passe ou email invalide !")
+                    }else{
 
 
                      let userId = confirmation.userId;
@@ -82,9 +86,10 @@ export default {
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
                     sessionStorage.setItem("job", confirmation.job);
                     sessionStorage.setItem("email", confirmation.email);
+                     sessionStorage.setItem("profilPic", confirmation.profilPic);
                     console.log(sessionStorage);
                     window.location.href ="./accueil";
-
+                    }
                     
             //traitement des erreurs
                  } catch (error) {

@@ -78,6 +78,7 @@ export default {
         submitPost() {
             const userName = sessionStorage.getItem("userName");
             const userFirstname = sessionStorage.getItem("userFirstname");
+            const user_profilPic = sessionStorage.getItem("profilPic");
             const user_Id = sessionStorage.getItem("userId");
             const titre = document.getElementById('inputTitre').value;
             const contenu=document.getElementById('textarea').value;
@@ -90,6 +91,7 @@ export default {
             formData.append('user_name', userName);
             formData.append('user_firstname', userFirstname);
             formData.append('id_user', user_Id);
+            formData.append('user_profilPic', user_profilPic);
             
 
             axios.post('http://localhost:3000/article/', formData, {

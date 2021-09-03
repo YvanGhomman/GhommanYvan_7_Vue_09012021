@@ -13,27 +13,49 @@ exports.create = (req, res) => {
     res.status(400).send({
       message: "Le champ ne peut pas être vide !"
     })};
-
+if(!req.file){
   const article = new Article({
     titre: req.body.titre,
     contenu: req.body.contenu,
     user_name: req.body.user_name,
     user_firstname: req.body.user_firstname,
+    user_profilPic: req.body.user_profilPic,
+    id_user: req.body.id_user,
+    imageUrl: null,
+  });
+
+  Article.create(article, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Une erreur est servenue lors de la création de l'article."
+      });
+    else res.send(data);
+  });
+
+}else{
+  const article = new Article({
+    titre: req.body.titre,
+    contenu: req.body.contenu,
+    user_name: req.body.user_name,
+    user_firstname: req.body.user_firstname,
+    user_profilPic: req.body.user_profilPic,
     id_user: req.body.id_user,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
-
-     
-
-    Article.create(article, (err, data) => {
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Une erreur est servenue lors de la création de l'article."
-          });
-        else res.send(data);
+  Article.create(article, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Une erreur est servenue lors de la création de l'article."
       });
-    };
+    else res.send(data);
+  });
+
+}
+
+};
+    
 
 // Retrieve all Articles from the database
 exports.findAll = (req, res) => {
@@ -123,28 +145,45 @@ exports.delete = (req, res) => {
           message: "Erreur de récupération de l'article avec l'id " + req.params.articleId
         });
       }
-    } else{ 
-        const filename = data.imageUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
-          
-          Article.remove(req.params.articleId, (err, data) => {
-            if (err) {
-              if (err.kind === "not_found") {
-                res.status(404).send({
-                  message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
-                });
-              } else {
-                res.status(500).send({
-                  message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
-                });
-              }
-            } else res.send({ message: `L'article a été supprimé !` });
-          });
-    
-    
-        });
-    
+    } else { 
 
+      if(!data.imageUrl){
+        Article.remove(req.params.articleId, (err, data) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
+              });
+            }
+          } else res.send({ message: `L'article a été supprimé !` });
+        });
+
+
+      }else{
+        const filename = data.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+                  
+                  Article.remove(req.params.articleId, (err, data) => {
+                    if (err) {
+                      if (err.kind === "not_found") {
+                        res.status(404).send({
+                          message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
+                        });
+                      } else {
+                        res.status(500).send({
+                          message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
+                        });
+                      }
+                    } else res.send({ message: `L'article a été supprimé !` });
+                  });
+            
+            
+                });
+      }
     }
   })
   

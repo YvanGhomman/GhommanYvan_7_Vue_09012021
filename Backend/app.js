@@ -38,7 +38,7 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
-
+app.use('/profilPic', express.static(path.join(__dirname, 'profilPic')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/user', userRoutes);

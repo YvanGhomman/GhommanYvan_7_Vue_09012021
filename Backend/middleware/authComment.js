@@ -17,8 +17,7 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM commentaire WHERE id = ${req.params.commentId}`, (err, data) => {
         console.log(data);
-        console.log(data[0].id_user);
-        if ((data[0].id_user === userId) || isAdmin === 1) {
+        if ( isAdmin === 1 ||(data[0].id_user === userId)) {
             console.log("action autorisée");
             next();
         } else {

@@ -3,33 +3,55 @@
         <div class="d-flex col-12 justify-content-center" v-if="donnees" v-for="item in donnees" :key="item.id">
             <div class="card col-10 offset-1 center">
                 <div class="card-body">
-                    <h5 class="card-title text-center">{{item.user_name}} {{item.user_firstname}}</h5>
+                    <div class="d-flex">
+                        <img class="imgProfilPic col-2 " v-if="item.user_profilPic" :src="item.user_profilPic" alt="">
+                        <h5 class="card-title mx-3 d-flex align-items-center">{{item.user_name}} {{item.user_firstname}}</h5>
+                    </div>
+                    
                     <h5 class="card-title text-center">{{item.titre}}</h5>    
                     <p class="card-text text-center">{{item.contenu}}</p>
-                    <img v-if="item.imageUrl" :src="item.imageUrl" alt="">
-                    
-                    <a href="" class="col-5 offset-1 btn btn-dark"><span class="gradient">Voir détails</span></a>
-                    <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class="col-5 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
-                    <p>
-                        <button @click="getCom(item.id)" class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+item.id" aria-expanded="false" aria-controls="collapseExample">
-                            Button with data-target
-                        </button>
-                    </p>
-                    <div class="collapse" :id="'collapseExample'+item.id">
-                        <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
-                            <h5>{{comm.user_name}} {{comm.user_firstname}}</h5>
-                            <p>{{comm.commentary}}</p>
-                            <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1 btn btn-danger"><span class="gradient">Supprimer</span></a>
-                        </div>
-                        <div>
-                            <form class="row center mt-1 mb-1" id="checked">
-                                <div class="space-form col-6">
-                                    <textarea class="form-control" v-bind:id="item.id" placeholder="What are you thinking about ?" aria-label="Textarea" required></textarea>
+                    <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="item.imageUrl" :src="item.imageUrl" alt="">
+                    <div class="row m-2">
+                        <!-- Trigger the modal with a button -->
+                        <button @click="getCom(item.id)" type="button" id="btnModal" class="col-4 btn btn-primary" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
+                        <!-- Modal -->
+                        <div class="modal fade" :id="'myModal'+item.id" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close btn btn-danger" data-dismiss="modal">X</button>
+                                    <h5>Commentaires</h5>
                                 </div>
-                            </form>
-                            <a @click="createComm(item.id)" class="offset-3 col-6 offset-3 center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
+                                <div class="modal-body">
+                                    <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
+                                        <h5>{{comm.user_name}} {{comm.user_firstname}}</h5>
+                                        <p>{{comm.commentary}}</p>
+                                        <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1"><i class="offset-11  far fa-trash-alt poubelle text-danger"></i></a>
+                                    </div>
+                                    <div v-else>
+                                        <h5>Il n'y a pas de commentaires pour l'instant 😅</h5>
+                                    </div>
+                                    <div>
+                                </div>
+                                <div class="row modal-footer ">
+                                    <form class="row col-12" id="checked">
+                                        <div class="space-form ">
+                                            <textarea class="form-control" v-bind:id="item.id" placeholder="What are you thinking about ?" aria-label="Textarea" required></textarea>
+                                        </div>
+                                    </form>
+                                    <a @click="createComm(item.id)" class=" col-4  center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
+                                </div>
+                                </div>
+                            </div>
                         </div>
+                        </div>
+                        
+                        <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class="col-8 d-flex  align-items-center "><i class="offset-11  far fa-trash-alt poubelle text-danger"></i></a>
+                        
                     </div>
+                                      
+                    
                 </div>
               </div>
         </div>
@@ -146,6 +168,33 @@ export default {
 }
 </script>
 
-<style >
+<style lang="css" >
+.poubelle{
+font-size: 25px;
+display: flex;
+justify-items: center;
+cursor: pointer;
+}
 
+.imgProfilPic{
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    height: 70px;
+    width: 70px;
+   
+}
+ @media screen and (max-width: 750px) {
+.imgProfilPic{
+    height: 50px;
+    width: 50px;
+    }}
+.imgCard{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    object-position: 50% 50%;
+    border-radius: 10px;
+}
 </style>
