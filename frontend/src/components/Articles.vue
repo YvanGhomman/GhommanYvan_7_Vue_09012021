@@ -1,11 +1,11 @@
 <template>
-    <div class="d-flex flex-column-reverse align-items-center col-10 offset-1">
-        <div class="d-flex col-12 justify-content-center" v-if="donnees" v-for="item in donnees" :key="item.id">
-            <div class="card col-10 offset-1 center">
+    <div class="d-flex flex-column align-items-center col-10 offset-1">
+        <div class=" col-lg-8 col-md-10 col-12 m-2" v-if="donnees" v-for="item in donnees" :key="item.id">
+            <div class="card shadow">
                 <div class="card-body">
                     <div class="d-flex">
-                        <img class="imgProfilPic col-2 " v-if="item.user_profilPic" :src="item.user_profilPic" alt="">
-                        <h5 class="card-title mx-3 d-flex align-items-center">{{item.user_name}} {{item.user_firstname}}</h5>
+                        <img class="imgProfilPic col-2 " v-if="item.profilPic" :src="item.profilPic" alt="">
+                        <h5 class="card-title mx-3 d-flex align-items-center">{{item.name}} {{item.firstname}}</h5>
                     </div>
                     
                     <h5 class="card-title text-center">{{item.titre}}</h5>    
@@ -13,7 +13,7 @@
                     <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="item.imageUrl" :src="item.imageUrl" alt="">
                     <div class="row m-2">
                         <!-- Trigger the modal with a button -->
-                        <button @click="getCom(item.id)" type="button" id="btnModal" class="col-4 btn btn-primary" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
+                        <button @click="getCom(item.id)" type="button" id="btnModal" class="col-4 btn btn--groupomania__blue" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
                         <!-- Modal -->
                         <div class="modal fade" :id="'myModal'+item.id" role="dialog">
                             <div class="modal-dialog">
@@ -24,30 +24,39 @@
                                     <h5>Commentaires</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
-                                        <h5>{{comm.user_name}} {{comm.user_firstname}}</h5>
-                                        <p>{{comm.commentary}}</p>
-                                        <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1"><i class="offset-11  far fa-trash-alt poubelle text-danger"></i></a>
+                                    <div class="card m-2 shadow-sm card__Comm card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
+                                        <div class="d-flex row mb-4">
+                                            <div class="col-2">
+                                                <img class="imgProfilPic col-2 " v-if="comm.profilPic" :src="comm.profilPic" alt="">
+                                            </div>
+                                            <h5 class="d-flex col-6 align-items-center">{{comm.name}} {{comm.firstname}}</h5>
+                                        </div>
+                                            <p class="m-2">{{comm.commentary}}</p>
+                                            <div class=" offset-11 col-1">
+                                              <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"><i class=" far fa-trash-alt poubelle text-danger"></i></a>
+                                          
+                                            </div>
+                                            
                                     </div>
                                     <div v-else>
                                         <h5>Il n'y a pas de commentaires pour l'instant 😅</h5>
                                     </div>
-                                    <div>
-                                </div>
                                 <div class="row modal-footer ">
                                     <form class="row col-12" id="checked">
                                         <div class="space-form ">
-                                            <textarea class="form-control" v-bind:id="item.id" placeholder="What are you thinking about ?" aria-label="Textarea" required></textarea>
+                                            <textarea class="form-control" v-bind:id="item.id" placeholder="Commentaire" aria-label="Textarea" required></textarea>
                                         </div>
                                     </form>
-                                    <a @click="createComm(item.id)" class=" col-4  center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
+                                    <a @click="createComm(item.id)" class=" col-4 center btn btn--groupomania__blue mt-1" id="validateComment"><span>Commenter</span></a>
                                 </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
+                    <div class="col-8 d-flex justify-content-end align-items-center">
+                        <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class=" "><i class="  far fa-trash-alt poubelle text-danger"></i></a>
+                    </div>
                         
-                        <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class="col-8 d-flex  align-items-center "><i class="offset-11  far fa-trash-alt poubelle text-danger"></i></a>
                         
                     </div>
                                       
@@ -69,11 +78,11 @@ export default {
     data() {
         return {
             id_article: '',
-            commentary: '',
+            commentary: "",
             user_name: '',
             user_firstname: '',
             id_user: '',
-            userIdSession: sessionStorage.getItem("userId"),
+            userIdSession: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
             isAdmin: VueJwtDecode.decode(sessionStorage.getItem("token")).isAdmin,
             commentaires: '',
             donnees: 
@@ -111,9 +120,14 @@ export default {
         }},
 
          createComm(data) {
-            const userName = sessionStorage.getItem("userName");
-            const userFirstname = sessionStorage.getItem("userFirstname");
-            const user_Id = sessionStorage.getItem("userId");
+             if(document.getElementById(data).value == ""){
+                 alert("Vous n'avez rien écrit 😅")
+             }else{
+
+            const userName = VueJwtDecode.decode(sessionStorage.getItem("token")).userName;
+            const userFirstname = VueJwtDecode.decode(sessionStorage.getItem("token")).userFirstname;
+            const user_Id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
+            const user_profilPic = VueJwtDecode.decode(sessionStorage.getItem("token")).profilPic;
             axios.post('http://localhost:3000/comment/', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
@@ -122,7 +136,8 @@ export default {
                 commentary: document.getElementById(data).value,
                 user_name: userName,
                 user_firstname: userFirstname,
-                id_user: user_Id
+                id_user: user_Id,
+                user_profilPic: user_profilPic
             }) 
             .then(function(response) { 
                 console.log(response);
@@ -131,7 +146,7 @@ export default {
             .catch(function(error) { 
                 console.log(error); 
             });
-            
+                         }
         },
 
         getCom(data){
@@ -163,12 +178,54 @@ export default {
             .catch(function(error) { 
                 console.log(error); 
             });
-        }},
-}
+        }
+        },
+    
+},
+
 }
 </script>
 
 <style lang="css" >
+body{
+
+  background:  url("../assets/city-407703_1920(12).jpg") no-repeat center fixed ;
+    background-size: cover;
+}
+
+.btn--groupomania__blue{
+    background: #091f43;
+    transition: .4s background-color;
+    color: white;
+    border-radius: 10px;
+}
+.btn--groupomania__blue:hover {
+    background-color: #244982;
+    color: white;
+  }
+ .button--disabled {
+    background:#cecece;
+    color:#ececec;
+    border: none;
+  }
+  .button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+    color:#ececec
+  }
+
+.card {
+  border-radius: 10px;
+  padding:5px;
+}
+.modal-content {
+  border-radius: 16px;
+    border:#091f43 solid 3px;
+}
+.card__Comm {
+  padding:10px;
+}
+
 .poubelle{
 font-size: 25px;
 display: flex;
@@ -178,11 +235,11 @@ cursor: pointer;
 
 .imgProfilPic{
     border-radius: 50%;
+    border:#FD2D01 solid 3px;
     object-fit: cover;
     object-position: 50% 50%;
     height: 70px;
     width: 70px;
-   
 }
  @media screen and (max-width: 750px) {
 .imgProfilPic{

@@ -1,5 +1,5 @@
 <template>
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <nav class="navbar navbar-expand navbar-dark navbar-color">
             <div class="container-fluid ">
             <router-link class="navbar-brand" to="/accueil">Groupomania</router-link>
               <div class="navbar" id="navbarNav">
@@ -30,5 +30,7 @@ export default {
 }
 </script>
 <style>
-
+.navbar-color{
+background-color: #091f43
+}
 </style>

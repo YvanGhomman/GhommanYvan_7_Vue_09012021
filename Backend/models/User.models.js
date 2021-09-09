@@ -40,7 +40,7 @@ User.create = (newUtilisateur, result) => {
   };
 
   User.findOne= (email, result) => {
-    sql.query(`SELECT * FROM user WHERE email = ?`, email, (err, res) => {
+    sql.query(`SELECT * FROM user WHERE email = ?`, [email], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -57,7 +57,7 @@ User.create = (newUtilisateur, result) => {
   }; 
 
   User.findById = (userId, result) => {
-    sql.query(`SELECT * FROM user WHERE id = ${userId}`, (err, res) => {
+    sql.query(`SELECT * FROM user WHERE id = ?`, [userId] ,(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -98,7 +98,7 @@ User.create = (newUtilisateur, result) => {
 
 
   User.remove = (id, result) => {
-    sql.query("DELETE FROM user WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM user WHERE id = ?", [id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);

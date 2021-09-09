@@ -13,13 +13,11 @@ exports.create = (req, res) => {
     res.status(400).send({
       message: "Le champ ne peut pas être vide !"
     })};
+
 if(!req.file){
   const article = new Article({
     titre: req.body.titre,
     contenu: req.body.contenu,
-    user_name: req.body.user_name,
-    user_firstname: req.body.user_firstname,
-    user_profilPic: req.body.user_profilPic,
     id_user: req.body.id_user,
     imageUrl: null,
   });
@@ -37,9 +35,6 @@ if(!req.file){
   const article = new Article({
     titre: req.body.titre,
     contenu: req.body.contenu,
-    user_name: req.body.user_name,
-    user_firstname: req.body.user_firstname,
-    user_profilPic: req.body.user_profilPic,
     id_user: req.body.id_user,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
@@ -98,7 +93,8 @@ exports.findArticleWithUserId = (req, res) =>{
           message: "Erreur de récupération de l'article avec le user_id " + req.params.userId
         });
       }
-    } else res.send(data);
+    } else  res.send(data); 
+
   });
 
 }
@@ -180,19 +176,12 @@ exports.delete = (req, res) => {
                       }
                     } else res.send({ message: `L'article a été supprimé !` });
                   });
-            
-            
                 });
       }
     }
-  })
-  
+  }) 
 
-
-
-          
-
-    };
+};
 
 
 

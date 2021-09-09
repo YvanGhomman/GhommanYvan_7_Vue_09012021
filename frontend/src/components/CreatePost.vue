@@ -12,12 +12,13 @@
             </div>
     </form>
         <div>
-            <a @click="submitPost()" class="offset-3 col-6 offset-3 center btn btn-dark mt-1" id="validateArticle"><span> validate </span></a>
+            <a @click="submitPost()" :class="{'button--disabled' : !validatedFields}" class="offset-3 col-6 offset-3 center btn btn--groupomania__blue mt-1" id="validateArticle"><span> validate </span></a>
         </div>
 </template>
 
 <script>
 import axios from 'axios'
+import VueJwtDecode from "vue-jwt-decode";
 
 
 export default {
@@ -42,8 +43,7 @@ export default {
             this.imageUrl = file;
             console.log(this.imageUrl);
             
-            /* imageInput.setValue(file); */
-           /*  this.sauceForm.updateValueAndValidity(); */
+            
             const reader = new FileReader();
             reader.onload = () => {
             this.imagePreview = reader.result ;
@@ -51,48 +51,26 @@ export default {
             reader.readAsDataURL(file);
         },
 
-        /* createPost(info, image){
-            return new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append('file', JSON.stringify(info));
-            
-            formData.append('image', image);
-            axios.post('http://localhost:3000/article/', {
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-                }}, formData) 
-            .then(function(response) { 
-                console.log(response);
-                resolve(response)
-                
-            }) 
-            .catch(function(error) { 
-                console.log(error);
-                reject(error) 
-            });
-
-         })
-    }, */
+        
          
 
         submitPost() {
-            const userName = sessionStorage.getItem("userName");
-            const userFirstname = sessionStorage.getItem("userFirstname");
-            const user_profilPic = sessionStorage.getItem("profilPic");
-            const user_Id = sessionStorage.getItem("userId");
+            if(document.getElementById('textarea').value == ""){
+                 alert("Vous n'avez rien écrit 😅")
+             }else{
+
+
+            const user_Id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
             const titre = document.getElementById('inputTitre').value;
             const contenu=document.getElementById('textarea').value;
+            const imageUrl = this.imageUrl
            
             console.log(this.imageUrl);
             const formData = new FormData();
-            formData.append('image', this.imageUrl);
+            formData.append('image', imageUrl);
             formData.append('titre', titre);
             formData.append('contenu', contenu);
-            formData.append('user_name', userName);
-            formData.append('user_firstname', userFirstname);
             formData.append('id_user', user_Id);
-            formData.append('user_profilPic', user_profilPic);
-            
 
             axios.post('http://localhost:3000/article/', formData, {
                 headers: {
@@ -102,11 +80,9 @@ export default {
                 }) 
             .then(function(response) { 
                 console.log(response);
-                /* this.titre= response.data.titre;
-                this.contenu= response.data.contenu;
-                this.imageUrl= response.imageUrl; */
+                
                 document.location.reload(); 
-               /*  uploadImage(response.imageUrl) */
+             
                 
                 
             }) 
@@ -114,39 +90,53 @@ export default {
                 console.log(error); 
             });
 
-            /* formData.append('titre', titre);
-            formData.append('contenu', contenu);
-            formData.append('user_name', userName);
-            formData.append('user_firstname', userFirstname);
-            formData.append('id_user', user_Id);
-            
-            axios.post('http://localhost:3000/article/', {
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-                }}, formData) 
-            .then(function(response) { 
-                console.log(response);
-                resolve(response)
-                
-            }) 
-            .catch(function(error) { 
-                console.log(error);
-                reject(error) 
-            }); */
+             }
 
          },
-         /* uploadImage(data){
-             this.imageUrl = data;
-             console.log(this.imageUrl);
-         } */
+         
 
           
                 
 
     },
+    computed: {
+    validatedFields: function () {
+        if (this.titre != "" && this.contenu != "") {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
 }
 </script>
 
 <style>
+/* $color-primary : #091f43 ;
+$color-secondary : #d1515a;
+$color-tertiary :  #d4d4d4;
+$color-4 :#FD2D01 */
+
+.btn--groupomania__blue{
+    background: #091f43;
+    transition: .4s background-color;
+    color: white;
+    border-radius: 10px;
+}
+.btn--groupomania__blue:hover{
+    background-color: #244982;
+    color: white;
+    
+}
+ .button--disabled {
+    background:#cecece;
+    color:#ececec;
+    border: none;
+  }
+  .button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+    color:#ececec
+  }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
 
   <div class="home">
-    <img class="img d-flex col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12" alt="Groupomania logo" src="../assets/icon-above-font.svg">
+    <img class="img d-flex col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12" alt="Groupomania logo" src="../assets/icon-above-font-removebg-preview.webp">
     <div class="container">
       <div class="row align-items-center justify-content-around m-2">
         <div class="card shadow-lg ">
@@ -53,6 +53,11 @@ export default {
 </script>
 
 <style scoped>
+body{
+  background:  url("../assets/city-407703_1920(12).jpg") no-repeat center fixed ;
+  background-size: cover;
+}
+
 .img {
   height: 600px;
   margin-top: -100px;

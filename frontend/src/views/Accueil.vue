@@ -2,7 +2,7 @@
 
   <Navbar/>
     <div>
-      <button class="offset-3 col-6 btn btn-primary mb-1 mt-1" @click="active = !active">Créer un post</button>
+      <button class="offset-3 col-6 btn btn--groupomania__blue mb-1 mt-1" @click="active = !active">Créer un post</button>
       <div v-if="active" class="col-10 offset-1 text-center">
         <CreatePost/>
       </div>

@@ -66,7 +66,7 @@ export default {
                     console.log(confirmation);
                     if (confirmation.error){
                             console.log("error")
-                            alert("Mot de passe ou email invalide !")
+                            alert("Mot de passe ou email invalide : " + confirmation.message)
                     }else{
 
 
@@ -78,15 +78,10 @@ export default {
                     }
                     console.log(result); 
 
-                    sessionStorage.setItem("isAdmin", confirmation.isAdmin);
-                    sessionStorage.setItem("confirm", JSON.stringify(result));
-                    sessionStorage.setItem("userId", confirmation.userId);
+                    
+                    /* sessionStorage.setItem("confirm", JSON.stringify(result)); */
+                   
                     sessionStorage.setItem("token", confirmation.token);
-                    sessionStorage.setItem("userName", confirmation.userName);
-                    sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    sessionStorage.setItem("job", confirmation.job);
-                    sessionStorage.setItem("email", confirmation.email);
-                     sessionStorage.setItem("profilPic", confirmation.profilPic);
                     console.log(sessionStorage);
                     window.location.href ="./accueil";
                     }
@@ -115,9 +110,16 @@ export default {
 </script>
 
 <style>
+body{
+
+    background:  url("../assets/city-407703_1920(12).jpg") no-repeat center fixed ;
+    background-size: cover;
+
+
+        }
 
 .button_login {
-    background: #2196F3;
+    background: #091f43;
     color:white;
     border-radius: 8px;
     font-weight: 800;
@@ -128,16 +130,18 @@ export default {
     transition: .4s background-color;
   }
 
-  .button:hover {
-    cursor:pointer;
-    background: #1976D2;
+  .button_login:hover {
+    background-color: #244982;
+    color: white;
   }
   .button--disabled {
     background:#cecece;
-    color:#ececec
+    color:#ececec;
+    border: none;
   }
   .button--disabled:hover {
     cursor:not-allowed;
     background:#cecece;
+    color:#ececec
   }
 </style>

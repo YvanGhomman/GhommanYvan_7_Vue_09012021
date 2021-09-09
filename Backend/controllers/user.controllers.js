@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.models.js');
+const Article = require('../models/Article.models.js');
 require('dotenv').config();
 const fs = require('fs');
 
@@ -22,29 +23,30 @@ exports.signup = (req, res, next) => {
     
         User.create(utilisateur, (err, data) => {
           if (err)
-            res.status(500).send({
-              error: err,
+           return res.status(500).json({
               message:
-                err.message || "Une erreur est servenue lors de la création du User."
+                err.message || "Une erreur est servenue lors de la création du User.",
+                error: err
             });
           else {
                 res.status(200).json({
-                  isAdmin: data.admin,
-                  userId: data.id,
-                  userName: data.name,
-                  userFirstname: data.firstname,
-                  job: data.job,
-                  email: data.email,
-                  profilPic:data.profilPic,
+                  
                   token: jwt.sign(
-                    { userId: data.id, isAdmin: data.admin},
+                    { isAdmin: data.admin,
+                      userId: data.id,
+                      userName: data.name,
+                      userFirstname: data.firstname,
+                      job: data.job,
+                      email: data.email,
+                      profilPic:data.profilPic,
+                    },
                     process.env.DB_TOK,
                     { expiresIn: '24h' }
                   )
                 });}
         });
     })
-      .catch(error => res.status(500).json({ error }));
+      .catch(error => res.status(500).json({ error: error}));
 
 };
 
@@ -53,12 +55,12 @@ exports.login = (req, res, next) => {
   User.findOne(req.body.email, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
+        res.status(404).json({
           message: `Le user avec l'email ${req.body.email} n'a pas été trouvé.`,
           error: err
         });
       } else {
-        res.status(500).send({
+        res.status(500).json({
           message: "Erreur de récupération du user avec l'email " + req.body.email,
           error: err
         });
@@ -67,24 +69,26 @@ exports.login = (req, res, next) => {
       bcrypt.compare(req.body.password, data.password)
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            return res.status(401).json({ error: 'Mot de passe incorrect !',
+          message : 'Mot de passe incorrect !' });
           } else {
             res.status(200).json({
-              isAdmin: data.admin,
-              userId: data.id,
-              userName: data.name,
-              userFirstname: data.firstname,
-              job: data.job,
-              email: data.email,
-              profilPic: data.profilPic,
+                  
               token: jwt.sign(
-                { userId: data.id, isAdmin: data.admin },
+                { isAdmin: data.admin,
+                  userId: data.id,
+                  userName: data.name,
+                  userFirstname: data.firstname,
+                  job: data.job,
+                  email: data.email,
+                  profilPic:data.profilPic,
+                },
                 process.env.DB_TOK,
                 { expiresIn: '24h' }
             )
           });
           }
-        }).catch(error => res.status(500).json({ error }))
+        }).catch(error => res.status(500).json({ error, message : 'Mot de passe incorrect !' }))
   } 
   });
 };
@@ -186,7 +190,7 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res) => {
 
 
-  User.findById(req.params.userId, (err, data) => {
+  User.findById(req.params.userId, (err, dota) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -199,23 +203,60 @@ exports.delete = (req, res) => {
       }
     } else {
 
-        const filename = data.profilPic.split('/profilPic/')[1];
-        fs.unlink(`profilPic/${filename}`, () => {
-          User.remove(req.params.userId, (err, data) => {
+          Article.findByUserId(dota.id, (err, donnee) => {
             if (err) {
               if (err.kind === "not_found") {
                 res.status(404).send({
-                  message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                  message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
                 });
               } else {
                 res.status(500).send({
-                  message: "Erreur de suppression du User avec l'id " + req.params.userId
+                  message: "Erreur de récupération de l'article avec le user_id " + donnee.id
                 });
               }
-            } else res.send({ message: `Le User a été supprimé !` });
-    });
-  })}})
-};
+            } else {
+
+              for (const element of donnee) {
+
+                if(!element.imageUrl){
+                console.log("Oh il n'y a pas d'image !");
+            
+                }else{
+                  const filename = element.imageUrl.split('/images/')[1];
+                          fs.unlink(`images/${filename}`, () => {
+                            
+                            console.log("image supprimée"); 
+                        })
+                        };
+                    }
+                        
+                        const filename = dota.profilPic.split('/profilPic/')[1];
+                                fs.unlink(`profilPic/${filename}`, () => {
+                                User.remove(req.params.userId, (err, data) => {
+                                  if (err) {
+                                    if (err.kind === "not_found") {
+                                      res.status(404).send({
+                                        message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                                      });
+                                    } else {
+                                      res.status(500).send({
+                                        message: "Erreur de suppression du User avec l'id " + req.params.userId
+                                      });
+                                    }
+                                  } else res.send({ message: `Le User a été supprimé !` });
+                          });
+                        })
+                        
+                        };
+
+
+
+                })}
+                })}
+              
+
+
+
 
 
 // Delete all users from the database.

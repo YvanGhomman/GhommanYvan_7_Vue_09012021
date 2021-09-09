@@ -5,9 +5,6 @@ const sql = require("./db.js");
 const Article = function(post) {
     this.titre = post.titre;
     this.contenu = post.contenu;
-    this.user_name = post.user_name;
-    this.user_firstname = post.user_firstname;
-    this.user_profilPic= post.user_profilPic;
     this.id_user = post.id_user;
     this.imageUrl = post.imageUrl;
 };
@@ -27,7 +24,7 @@ Article.create = (newArticle, result) => {
   };
 
   Article.getAll = result => {
-    sql.query("SELECT * FROM article", (err, res) => {
+    sql.query("SELECT article.id, contenu, imageUrl, titre, id_user, date_creation, admin, name, firstname, profilPic FROM article INNER JOIN user ON user.id = article.id_user ORDER BY date_creation DESC", (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -40,7 +37,7 @@ Article.create = (newArticle, result) => {
   };
 
   Article.findById = (articleId, result) => { 
-   sql.query(`SELECT * FROM article WHERE id = ${articleId}`,  (err, res)  => { 
+   sql.query(`SELECT article.id, contenu, imageUrl, titre, id_user, date_creation, admin, name, firstname, profilPic FROM article INNER JOIN user ON user.id = article.id_user WHERE article.id = ?`, [articleId],  (err, res)  => { 
       if (err) { 
         console.log("error: ", err);
         result(err, null);
@@ -59,7 +56,7 @@ Article.create = (newArticle, result) => {
   };
 
   Article.findByUserId = (userId, result) => { 
-    sql.query(`SELECT * FROM article WHERE id_user = ${userId}`,  (err, res)  => { 
+    sql.query(`SELECT article.id, contenu, imageUrl, titre, id_user, date_creation, admin, name, firstname, profilPic FROM article INNER JOIN user ON user.id = article.id_user WHERE article.id_user = ?`, [userId], (err, res)  => { 
        if (err) { 
          console.log("error: ", err);
          result(err, null);

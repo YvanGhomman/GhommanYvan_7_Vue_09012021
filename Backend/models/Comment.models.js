@@ -6,8 +6,6 @@ const Comment = function(com) {
     this.commentary = com.commentary,
     this.id_article = com.id_article,
     this.id_user = com.id_user;
-    this.user_name = com.user_name;
-    this.user_firstname = com.user_firstname;
 };
 
 
@@ -25,7 +23,7 @@ Comment.create = (newComment, result) => {
   };
 
   Comment.getAll = result => {
-    sql.query("SELECT * FROM commentaire", (err, res) => {
+    sql.query("SELECT commentaire.id, commentary, id_user, date_creation, id_article, admin, name, firstname, profilPic FROM commentaire INNER JOIN user ON user.id = commentaire.id_user ORDER BY date_creation ASC", (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -38,7 +36,7 @@ Comment.create = (newComment, result) => {
   };
 
   Comment.findByArticleId = (articleId, result) => {
-    sql.query(`SELECT * FROM commentaire WHERE id_article = ${articleId}`, (err, res) => {
+    sql.query(`SELECT commentaire.id, commentary, id_user, date_creation, id_article, admin, name, firstname, profilPic FROM commentaire INNER JOIN user ON user.id = commentaire.id_user WHERE id_article = ? ORDER BY date_creation ASC`, [articleId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -57,7 +55,7 @@ Comment.create = (newComment, result) => {
   };
 
   Comment.findById = (commentId, result) => {
-    sql.query(`SELECT * FROM commentaire WHERE id = ${commentId}`, (err, res) => {
+    sql.query(`SELECT commentaire.id, commentary, id_user, date_creation, id_article, admin, name, firstname, profilPic FROM commentaire INNER JOIN user ON user.id = commentaire.id_user WHERE commentaire.id = ?`, [commentId],(err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

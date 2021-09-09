@@ -1,9 +1,9 @@
 <template>
     <form enctype="multipart/form-data" class="row" id="checked" v-if="mode == 'create'">
         <div class="form-group">
-                <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
-                <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-            </div>
+            <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
+            <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+        </div>
         <div class="space-form col-6 form-group">
             <input type="text" v-model="name" class="form-control" formControlName="name" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
         </div>
@@ -111,8 +111,7 @@ export default {
 
                 headers: {
                      'Authorization': 'Bearer ', 
-                     'content-Type': 'multipart/form-data'
-                    /*  'Content-type':'application/json' */
+                     'content-Type': 'multipart/form-data',
                 },
                 /* firstname : document.getElementById('inputPrenom').value,
                 name : document.getElementById('inputNom').value,
@@ -129,26 +128,17 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation =  await  response.data;
                     console.log(confirmation);
-                    /* if (confirmation.error){
-                            console.log("error")
-                            alert("Invalide :"+ confirmation.message)
-                    }else{ */
-                    sessionStorage.setItem("isAdmin", confirmation.isAdmin);
-                    sessionStorage.setItem("userId", confirmation.userId);
+                    
                     sessionStorage.setItem("token", confirmation.token);
-                    sessionStorage.setItem("userName", confirmation.userName);
-                    sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    sessionStorage.setItem("job", confirmation.job);
-                    sessionStorage.setItem("email", confirmation.email);
-                    sessionStorage.setItem("profilPic", confirmation.profilPic);
                     console.log(sessionStorage);
                     window.location.href ="./accueil";
 
-                    /* } */
+                    
             //traitement des erreurs
                 
             }).catch(function(error) { 
                 console.log(error); 
+                 alert("Mot de passe invalide ! Il faut au minimum 8 caractères non espacés dont une majuscule, une minuscule et 2 chiffres")
             });
         };
     }
@@ -168,10 +158,16 @@ export default {
 </script>
 
 <style >
+body{
 
+  background:  url("../assets/city-407703_1920(12).jpg") no-repeat center fixed ;
+    background-size: cover;
+
+
+}
 
 .button_create {
-    background: #2196F3;
+    background: #091f43;
     color:white;
     border-radius: 8px;
     font-weight: 800;
@@ -182,16 +178,18 @@ export default {
     transition: .4s background-color;
   }
 
-  .button:hover {
-    cursor:pointer;
-    background: #1976D2;
+  .button_create:hover {
+    background-color: #244982;
+    color: white;
   }
   .button--disabled {
     background:#cecece;
-    color:#ececec
+    color:#ececec;
+    border: none;
   }
   .button--disabled:hover {
     cursor:not-allowed;
     background:#cecece;
+    color:#ececec
   }
 </style>

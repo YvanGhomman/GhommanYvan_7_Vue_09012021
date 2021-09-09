@@ -14,7 +14,7 @@ router.post('/login', userCtrl.login);
 //Admin
 router.get('/', auth, authAdmin, userCtrl.findAll);
 router.get('/:userId', auth, authUser, userCtrl.findOne);
-router.put('/:userId', auth, authUser, multerProfil, vpass,  userCtrl.update);
+router.put('/:userId', auth, authUser, multerProfil, vpass, userCtrl.update);
 router.delete('/:userId', auth, authUser, userCtrl.delete);
 /* router.delete('/', userCtrl.deleteAll); */
 
