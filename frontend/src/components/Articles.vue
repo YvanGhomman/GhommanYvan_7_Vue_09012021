@@ -5,15 +5,15 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <img class="imgProfilPic col-2 " v-if="item.profilPic" :src="item.profilPic" alt="">
-                        <h5 class="card-title mx-3 d-flex align-items-center">{{item.name}} {{item.firstname}}</h5>
+                        <h5 class="card-title mx-3 d-flex align-items-center fontMiniTextTitre">{{item.name}} {{item.firstname}}</h5>
                     </div>
                     
-                    <h5 class="card-title text-center">{{item.titre}}</h5>    
-                    <p class="card-text text-center">{{item.contenu}}</p>
-                    <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="item.imageUrl" :src="item.imageUrl" alt="">
+                    <h5 class="card-title text-center fontMiniTextTitre">{{item.titre}}</h5>    
+                    <p class="card-text text-center fontMiniText">{{item.contenu}}</p>
+                    <img class="col-lg-8 col-md-8 col-12 imgCard" v-if="item.imageUrl" :src="item.imageUrl" alt="">
                     <div class="row m-2">
                         <!-- Trigger the modal with a button -->
-                        <button @click="getCom(item.id)" type="button" id="btnModal" class="col-4 btn btn--groupomania__blue" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
+                        <button @click="getCom(item.id)" type="button" id="btnModal" class="col-lg-4 col-sm-4 col-8 btn btn--groupomania__blue fontMini" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
                         <!-- Modal -->
                         <div class="modal fade" :id="'myModal'+item.id" role="dialog">
                             <div class="modal-dialog">
@@ -29,9 +29,9 @@
                                             <div class="col-2">
                                                 <img class="imgProfilPic col-2 " v-if="comm.profilPic" :src="comm.profilPic" alt="">
                                             </div>
-                                            <h5 class="d-flex col-6 align-items-center">{{comm.name}} {{comm.firstname}}</h5>
+                                            <h5 class="d-flex offset-sm-0 offset-2 col-6 fontMiniTextTitre align-items-center">{{comm.name}} {{comm.firstname}}</h5>
                                         </div>
-                                            <p class="m-2">{{comm.commentary}}</p>
+                                            <p class="m-2 fontMiniText">{{comm.commentary}}</p>
                                             <div class=" offset-11 col-1">
                                               <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"><i class=" far fa-trash-alt poubelle text-danger"></i></a>
                                           
@@ -47,13 +47,13 @@
                                             <textarea class="form-control" v-bind:id="item.id" placeholder="Commentaire" aria-label="Textarea" required></textarea>
                                         </div>
                                     </form>
-                                    <a @click="createComm(item.id)" class=" col-4 center btn btn--groupomania__blue mt-1" id="validateComment"><span>Commenter</span></a>
+                                    <a @click="createComm(item.id)" class="col-lg-4 col-md-4 col-sm-4 col-6 center fontMini btn btn--groupomania__blue mt-1" id="validateComment"><span>Commenter</span></a>
                                 </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-8 d-flex justify-content-end align-items-center">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-4 d-flex justify-content-end align-items-center">
                         <a v-if="item.id_user == userIdSession || isAdmin == 1" @click="deletePost(item.id)"  class=" "><i class="  far fa-trash-alt poubelle text-danger"></i></a>
                     </div>
                         
@@ -245,7 +245,9 @@ cursor: pointer;
 .imgProfilPic{
     height: 50px;
     width: 50px;
-    }}
+    }
+ 
+    }
 .imgCard{
     display: flex;
     margin-left: auto;
@@ -254,4 +256,21 @@ cursor: pointer;
     object-position: 50% 50%;
     border-radius: 10px;
 }
+
+
+ @media screen and (max-width: 750px) {
+    
+.fontMini {
+    font-size: 0.8rem;
+  }
+  .fontMiniText{
+          font-size: 0.8rem;
+  }
+  .fontMiniTextTitre{
+          font-size: 1rem;
+  }
+}
+
+
+
 </style>

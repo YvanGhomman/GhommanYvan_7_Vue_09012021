@@ -8,11 +8,13 @@
             </div>
             <div class="form-group">
                 <input type="file" accept="image/*" id="imageInput" name="image" @change="onFileAdded(event)">
-                <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+                <div class="d-flex justify-content-center">
+                    <img :src="imagePreview" v-if="imagePreview" class="m-2 imgBorder">
+                </div>
             </div>
     </form>
         <div>
-            <a @click="submitPost()" :class="{'button--disabled' : !validatedFields}" class="offset-3 col-6 offset-3 center btn btn--groupomania__blue mt-1" id="validateArticle"><span> validate </span></a>
+            <a @click="submitPost()" :class="{'button--disabled' : !validatedFields}" class="offset-3 col-4 offset-3 center btn btn--groupomania__blue mt-1" id="validateArticle"><span>Valider</span></a>
         </div>
 </template>
 
@@ -138,5 +140,13 @@ $color-4 :#FD2D01 */
     background:#cecece;
     color:#ececec
   }
+.imgBorder{
+    border-radius: 10%;
+    border:#FD2D01 solid 2px;
+    object-fit: cover;
+    object-position: 50% 50%;
+    height: 150px;
+    width: 150px;
+}
 
 </style>

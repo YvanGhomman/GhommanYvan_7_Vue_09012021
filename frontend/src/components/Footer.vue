@@ -22,6 +22,10 @@ export default {
 .img__footer{
     width: 30%;
 }
+@media screen and (max-width: 750px) {
+.img__footer{
+    width: 60%;
+}}
 .navbar-color{
 background-color: #091f43
 }
