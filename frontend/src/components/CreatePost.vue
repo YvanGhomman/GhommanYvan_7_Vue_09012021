@@ -1,20 +1,22 @@
 <template>
     <form enctype="multipart/form-data" class="row" id="checked">
-            <div class="space-form col-6 form-group">
+        <div class="row justify-content-center">
+            <div class="space-form col-sm-8 col-12 m-2 form-group">
                 <input type="text" class="form-control" id="inputTitre" formControlName="titre" v-model="titre" placeholder="Titre" aria-label="Titre" required>
             </div>
-            <div class="space-form col-6 form-group">
+            <div class="space-form col-sm-8 col-12 m-2 form-group">
                 <textarea class="form-control" id="textarea" formControlName="contenu" v-model="contenu" placeholder="Quoi de neuf ?" aria-label="Textarea" required></textarea>
             </div>
-            <div class="form-group">
-                <input type="file" accept="image/*" id="imageInput" name="image" @change="onFileAdded(event)">
-                <div class="d-flex justify-content-center">
-                    <img :src="imagePreview" v-if="imagePreview" class="m-2 imgBorder">
-                </div>
+        </div>
+        <div class="space-form form-group">
+            <input type="file" accept="image/*" id="imageInput" class="d-flex justify-content-start text-truncate col-10" name="image" @change="onFileAdded(event)">
+            <div class="d-flex justify-content-center">
+                <img :src="imagePreview" v-if="imagePreview" class="m-2 imgBorder">
             </div>
+        </div>
     </form>
         <div>
-            <a @click="submitPost()" :class="{'button--disabled' : !validatedFields}" class="offset-3 col-4 offset-3 center btn btn--groupomania__blue mt-1" id="validateArticle"><span>Valider</span></a>
+            <a @click="submitPost()" :class="{'button--disabled' : !validatedFields}" class=" offset-sm-3 col-sm-4 offset-3 col-6  center btn btn--groupomania__blue mt-1" id="validateArticle"><span>Valider</span></a>
         </div>
 </template>
 
@@ -57,8 +59,8 @@ export default {
          
 
         submitPost() {
-            if(document.getElementById('textarea').value == ""){
-                 alert("Vous n'avez rien écrit 😅")
+            if(document.getElementById('textarea').value == '' || document.getElementById('inputTitre').value == ''){
+                 alert("Vous n'avez pas rempli certains champs requis 😅")
              }else{
 
 

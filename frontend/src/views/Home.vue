@@ -62,6 +62,7 @@ body{
   height: 600px;
   margin-top: -100px;
   margin-bottom: -100px;
+    object-fit: contain;
 }
 
   .form-row {

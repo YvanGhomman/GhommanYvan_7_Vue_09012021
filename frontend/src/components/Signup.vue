@@ -1,22 +1,24 @@
 <template>
-    <form enctype="multipart/form-data" class="row" id="checked" v-if="mode == 'create'">
-        <div class="form-group">
-            <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
-            <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+    <form enctype="multipart/form-data" class="row justify-content-center" id="checked" v-if="mode == 'create'">
+        <div class="form-group  m-1">
+            <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate col-12" @change="onFileAdded(event)" required>
+            <div class="d-flex justify-content-center">
+                <img :src="imagePreview" v-if="imagePreview" class="imgProfilPic m-2">   
+            </div>
         </div>
-        <div class="space-form col-6 form-group">
+        <div class="space-form col-sm-8 col-12 m-1 form-group">
             <input type="text" v-model="name" class="form-control" formControlName="name" id="inputNom" placeholder="👍 Nom" aria-label="Nom" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6 form-group">
+        <div class="space-form col-sm-8 col-12 m-1 form-group">
             <input type="text" v-model="firstname" class="form-control" formControlName="firstname" id="inputPrenom" placeholder="👉 Prénom" aria-label="Prenom" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6 form-group">
+        <div class="space-form col-sm-8 col-12  m-1 form-group">
             <input type="text" v-model="job" class="form-control" formControlName="job" id="inputJob" placeholder="💼 Job" aria-label="Job" pattern="[A-Za-z]{2,50}" required>
         </div>
-        <div class="space-form col-6 form-group">
+        <div class="space-form col-sm-8 col-12  m-1 form-group">
             <input type="email" v-model="email" class="form-control" formControlName="email" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
-        <div class="space-form col-6 offset-3 form-group">
+        <div class="space-form col-sm-8 col-12  m-1 form-group">
             <input type="text" v-model="password" class="form-control" formControlName="password" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
         
@@ -162,8 +164,15 @@ body{
 
   background:  url("../assets/city-407703_1920(12).jpg") no-repeat center fixed ;
     background-size: cover;
+}
 
-
+.imgProfilPic{
+    border-radius: 50%;
+    border:#FD2D01 solid 5px;
+    object-fit: cover;
+    object-position: 50% 50%;
+    height: 100px;
+    width: 100px;
 }
 
 .button_create {

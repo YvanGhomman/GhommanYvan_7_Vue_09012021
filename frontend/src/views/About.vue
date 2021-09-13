@@ -10,11 +10,11 @@
             <div>
                 <img class="imgProfilPicUser col-2 " v-if="profilPicOriginal" :src="profilPicOriginal" alt="">
             </div>
-            <h1 class="text-center">Votre Profil</h1>
-            <h3 class="">Nom : {{userName}}</h3>
-            <h3 class="article-content">Prénom : {{userFirstname}}</h3>
-            <h3 class="article-content">Poste : {{job}}</h3>
-            <h3 class="article-content">E-mail : {{email}}</h3>
+            <h1 class="text-center ">Votre Profil</h1>
+            <h3 class="article-content fontMiniTextTitre">Nom : {{userName}}</h3>
+            <h3 class="article-content fontMiniTextTitre">Prénom : {{userFirstname}}</h3>
+            <h3 class="article-content fontMiniTextTitre">Poste : {{job}}</h3>
+            <h3 class="article-content fontMiniTextTitre">E-mail : {{email}}</h3>
         
                 <div class="container">
                     <!-- Trigger the modal with a button -->
@@ -31,7 +31,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="row" id="checked" >
-                                    <div class="space-form col-6 offset-3">
+                                    <div class="space-form col-sm-6 offset-sm-3 col-10 offset-1">
                                         <input type="password" v-model="password" class="form-control" id="inputPassword2" placeholder="🔐 Password" aria-label="Password" required>
                                     </div>
                                 </form>
@@ -52,7 +52,7 @@
                         <div>
                             <form enctype="multipart/form-data" class="row" id="checked" >
                                 <div class="form-group">
-                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
+                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate col-12" @change="onFileAdded(event)" required>
                                     <div class="d-flex justify-content-center">
                                         <img :src="imagePreview" v-if="imagePreview" class="imgProfilPic m-2">   
                                     </div>
@@ -93,10 +93,10 @@
                                 <img class="imgProfilPic col-2 " v-if="user.profilPic" :src="user.profilPic" alt="">
                             </div>
                             <h3 class="article-content text-success" v-if="user.admin == 1">Admin</h3>
-                            <h4 class="">Nom : {{user.name}}</h4>
-                            <h4 class="article-content">Prénom : {{user.firstname}}</h4>
-                            <h4 class="article-content">Poste : {{user.job}}</h4>
-                            <h4 class="article-content">E-mail : {{user.email}}</h4>
+                            <h4 class="article-content fontMiniTextTitre">Nom : {{user.name}}</h4>
+                            <h4 class="article-content fontMiniTextTitre">Prénom : {{user.firstname}}</h4>
+                            <h4 class="article-content fontMiniTextTitre">Poste : {{user.job}}</h4>
+                            <h4 class="article-content fontMiniTextTitre">E-mail : {{user.email}}</h4>
 
                             <div v-if="isAdmin == 1" class="row mt-5">
                                 
@@ -114,8 +114,8 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="card m-2 shadow-sm card-body" v-if="posts" v-for="post in posts" :key="post.id">
-                                                    <h5>{{post.titre}}</h5>
-                                                    <p>{{post.contenu}}</p>
+                                                    <h5 class="fontMiniTextTitre">{{post.titre}}</h5>
+                                                    <p class="fontMiniText">{{post.contenu}}</p>
                                                     <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
                                                     <a v-if="isAdmin == 1" @click="deletePostAdmin(post.id)"  class="offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a>
                                                     <!-- <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a> -->
@@ -428,6 +428,7 @@ cursor: pointer;
   height: 600px;
   margin-top: -100px;
   margin-bottom: -100px;
+  object-fit: contain;
 }
 .card {
   max-width: 100%;
@@ -435,7 +436,7 @@ cursor: pointer;
   align-content: center;
   background-color: #e9e9e9;
   border-radius: 16px;
-  padding:32px;
+  padding:20px;
 }
 
 @media screen and (max-width: 750px) {
@@ -444,10 +445,10 @@ cursor: pointer;
     font-size: 0.8rem;
   }
   .fontMiniText{
-          font-size: 0.8rem;
+    font-size: 0.8rem;
   }
   .fontMiniTextTitre{
-          font-size: 1rem;
+    font-size: 1rem;
   }
 }
 
