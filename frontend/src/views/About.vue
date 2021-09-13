@@ -86,7 +86,7 @@
         <div v-if="isAdmin == 1"  class="mt-5 text-center d-flex justify-content-center">
             <div class="col-lg-6  col-md-8 o col-12 ">
                 <h1>Liste des Profils</h1>
-                <div class="mt-2 mb-2 " v-if="utilisateurs" v-for="user in utilisateurs" :key="user.id">
+                <div class=" m-2" v-if="utilisateurs" v-for="user in utilisateurs" :key="user.id">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <div class="">

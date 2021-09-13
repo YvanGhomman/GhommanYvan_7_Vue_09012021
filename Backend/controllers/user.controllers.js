@@ -204,6 +204,29 @@ exports.delete = (req, res) => {
     } else {
 
           Article.findByUserId(dota.id, (err, donnee) => {
+            if(!donnee){
+              
+              const filename = dota.profilPic.split('/profilPic/')[1];
+                fs.unlink(`profilPic/${filename}`, () => {
+                    User.remove(req.params.userId, (err, data) => {
+                      if (err) {
+                            if (err.kind === "not_found") {
+                                  res.status(404).send({
+                                    message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                                  });
+                            } else {
+                                  res.status(500).send({
+                                    message: "Erreur de suppression du User avec l'id " + req.params.userId
+                                  });
+                                }
+                              } else res.send({ message: `Le User a été supprimé !` });
+                      });
+                    })
+
+
+            }else{
+
+            
             if (err) {
               if (err.kind === "not_found") {
                 res.status(404).send({
@@ -247,7 +270,7 @@ exports.delete = (req, res) => {
                           });
                         })
                         
-                        };
+                        };}
 
 
 

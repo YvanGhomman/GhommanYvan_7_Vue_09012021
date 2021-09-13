@@ -254,21 +254,39 @@ cursor: pointer;
     margin-right: auto;
     object-fit: cover;
     object-position: 50% 50%;
+    height: 400px;
+    width: 400px;
     border-radius: 10px;
 }
 
 
  @media screen and (max-width: 750px) {
-    
-.fontMini {
-    font-size: 0.8rem;
-  }
-  .fontMiniText{
-          font-size: 0.8rem;
-  }
-  .fontMiniTextTitre{
-          font-size: 1rem;
-  }
+    .imgCard{
+        height: 300px;
+        width: 300px;
+    }
+    .fontMini {
+        font-size: 0.8rem;
+    }
+    .fontMiniText{
+            font-size: 0.8rem;
+    }
+    .fontMiniTextTitre{
+            font-size: 1rem;
+    }
+}
+@media screen and (max-width: 430px) {
+     .imgCard{
+    height: 200px;
+    width: 200px; 
+}
+}
+@media screen and (max-width: 300px) {
+     .imgCard{
+    height: 150px;
+    width: 150px; 
+}
+
 }
 
 

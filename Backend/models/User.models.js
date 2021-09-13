@@ -131,6 +131,4 @@ User.create = (newUtilisateur, result) => {
 
 
 
-
-
 module.exports = User;
