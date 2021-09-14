@@ -5,7 +5,7 @@
             <input type="email" v-model="email" class="form-control" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
         <div class="space-form col-sm-8 col-12 m-1">
-            <input type="text" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+            <input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
     </form>
     <div>

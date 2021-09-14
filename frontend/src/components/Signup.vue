@@ -1,7 +1,7 @@
 <template>
     <form enctype="multipart/form-data" class="row justify-content-center" id="checked" v-if="mode == 'create'">
         <div class="form-group  m-1">
-            <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate col-12" @change="onFileAdded(event)" required>
+            <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate justify-content-center col-sm-8 offset-sm-2 col-12" @change="onFileAdded(event)" required>
             <div class="d-flex justify-content-center">
                 <img :src="imagePreview" v-if="imagePreview" class="imgProfilPic m-2">   
             </div>

@@ -39,7 +39,7 @@
                                             
                                     </div>
                                     <div v-else>
-                                        <h5>Il n'y a pas de commentaires pour l'instant 😅</h5>
+                                        <h5 class="text-center" >Il n'y a pas de commentaires pour l'instant 😅</h5>
                                     </div>
                                 <div class="row modal-footer ">
                                     <form class="row col-12" id="checked">

@@ -52,7 +52,7 @@
                         <div>
                             <form enctype="multipart/form-data" class="row" id="checked" >
                                 <div class="form-group">
-                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate col-12" @change="onFileAdded(event)" required>
+                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" class="text-truncate col-sm-8 offset-sm-2 col-12" @change="onFileAdded(event)" required>
                                     <div class="d-flex justify-content-center">
                                         <img :src="imagePreview" v-if="imagePreview" class="imgProfilPic m-2">   
                                     </div>
@@ -116,12 +116,12 @@
                                                 <div class="card m-2 shadow-sm card-body" v-if="posts" v-for="post in posts" :key="post.id">
                                                     <h5 class="fontMiniTextTitre">{{post.titre}}</h5>
                                                     <p class="fontMiniText">{{post.contenu}}</p>
-                                                    <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
+                                                    <img class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
                                                     <a v-if="isAdmin == 1" @click="deletePostAdmin(post.id)"  class="offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a>
                                                     <!-- <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a> -->
                                                 </div>
                                                 <div v-else>
-                                                    <h5>Il n'y a pas de posts pour cet utilisateur 🤔</h5>
+                                                    <h5 class="text-center">Il n'y a pas de posts pour cet utilisateur 🤔</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,9 +138,10 @@
 
 
 
-        <Footer/>
+
     </div>
     </div>
+    <Footer/>
 </template>
 
 <script>

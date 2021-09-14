@@ -1,15 +1,15 @@
 <template>
     <form enctype="multipart/form-data" class="row" id="checked">
         <div class="row justify-content-center">
-            <div class="space-form col-sm-8 col-12 m-2 form-group">
+            <div class="space-form col-sm-8 offset-sm-2 col-12 m-2 form-group">
                 <input type="text" class="form-control" id="inputTitre" formControlName="titre" v-model="titre" placeholder="Titre" aria-label="Titre" required>
             </div>
-            <div class="space-form col-sm-8 col-12 m-2 form-group">
+            <div class="space-form col-sm-8 offset-sm-2 col-12 m-2 form-group">
                 <textarea class="form-control" id="textarea" formControlName="contenu" v-model="contenu" placeholder="Quoi de neuf ?" aria-label="Textarea" required></textarea>
             </div>
         </div>
         <div class="space-form form-group">
-            <input type="file" accept="image/*" id="imageInput" class="d-flex justify-content-start text-truncate col-10" name="image" @change="onFileAdded(event)">
+            <input type="file" accept="image/*" id="imageInput" class="d-flex text-truncate col-sm-8 offset-sm-2 col-12" name="image" @change="onFileAdded(event)">
             <div class="d-flex justify-content-center">
                 <img :src="imagePreview" v-if="imagePreview" class="m-2 imgBorder">
             </div>
