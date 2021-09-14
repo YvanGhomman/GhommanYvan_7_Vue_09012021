@@ -5,24 +5,19 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     try{
-        console.log("Coucou on est dans authArticle");
+        console.log("Middleware authArticle");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
     const userId = decodedToken.userId;
-    console.log("userToken",userId);
     const isAdmin = decodedToken.isAdmin;
-    console.log("Admin",isAdmin);
-    console.log("idArticle de req.params", req.params.articleId);
     
     sql.query(`SELECT * FROM article WHERE id = ${req.params.articleId}`, (err, data) => {
-        console.log(data);
         if (isAdmin === 1 || (data[0].id_user === userId)) {
             console.log("action autorisée");
             next();
         } else {
             res.status(403).json({ message: "Action non autorisée" });
-
-            console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
+            console.log(`Vous n'avez pas la permission requise`);
         }
     });
     }

@@ -7,7 +7,6 @@ const MIME_TYPES = {
   'image/gif': 'gif',
   'image/webp': 'webp',
 };
-
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, '../Backend/profilPic');
@@ -20,5 +19,4 @@ const storage = multer.diskStorage({
     callback(null, name + Date.now() + '.' + extension);
   }
 });
-
 module.exports = multer({storage: storage}).single('profilPic');

@@ -5,20 +5,17 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     try{
-        console.log("Coucou on est dans authAdmin");
+        console.log("Middleware authAdmin");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
-
     const isAdmin = decodedToken.isAdmin;
-    console.log("Admin", isAdmin);
     
         if (isAdmin === 1) {
         console.log("action autorisée");
         next();
         } else {
             res.status(403).json({ message: "Action non autorisée" });
-
-            console.log(`Hey ! Tu arrêtes ça, tu n'as pas le droit ! Vilain !`);
+            console.log(`Vous n'avez pas la permission requise`);
         }
     
     }
