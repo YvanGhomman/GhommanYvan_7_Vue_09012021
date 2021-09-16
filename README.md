@@ -5,6 +5,7 @@ Veuillez cloner ce repository
 ❗ N'oubliez pas de coller le fichier .env dans le dossier Back-end ❗
 
 Installation des dépendances
+==
 
 Pour lancer l'application, nous allons avoir besoin de toutes les dépendances nécessaires.
 
@@ -23,7 +24,8 @@ cd .\frontend\
 npm install -g @vue/cli sass sass-loader
 npm install axios bootstrap core-js vue-router vue-jwt-decode
 
-Les fonctionnalités de ces dépendances sont les suivantes :
+Les fonctionnalités de ces dépendances sont les suivantes
+==
 axios : c'est une bibliothèque JavaScript fonctionnant comme un client HTTP qui permet de communiquer avec des API en utilisant des requêtes
 bcrypt : sert à chiffrer les mots de passe
 body-parser : c'est un middleware express qui lit l'entrée d'un formulaire et le stocke en tant qu'objet javascript accessible via req.body
@@ -49,6 +51,7 @@ Afin de lancer le serveur, il faudra au préalable importer le fichier sql group
 Pour ce faire, vous devez ouvrir PHPMyAdmin, créer une nouvelle base de données nommée "groupomania" puis y importer le fichier "groupomania.sql"
 
 Mise en route
+==
 Veuillez ouvrir le dossier du projet Groupomania avec votre éditeur de code (IDE)
 
 Sur votre terminal scindé en 2 :
