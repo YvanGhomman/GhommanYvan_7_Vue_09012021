@@ -19,12 +19,11 @@
             <input type="email" v-model="email" class="form-control" formControlName="email" id="inputEmail" placeholder="📧 E-mail" aria-label="Email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" required>
         </div>
         <div class="space-form col-sm-8 col-12  m-1 form-group">
-            <input type="text" v-model="password" class="form-control" formControlName="password" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
+            <input type="password" v-model="password" class="form-control" formControlName="password" id="inputPassword" placeholder="🔐 Password" aria-label="Password" required>
         </div>
-        
     </form>
     <div>
-        <button class=" button_create " :class="{'button--disabled' : !validatedFields}" @click="sendSignup()"><span class="white">Valider</span></button>
+        <button class="button_create" :class="{'button--disabled' : !validatedFields}" @click="sendSignup()"><span class="white">Valider</span></button>
     </div>
 </template>
 
@@ -140,7 +139,7 @@ export default {
                 
             }).catch(function(error) { 
                 console.log(error); 
-                 alert("Mot de passe invalide ! Il faut au minimum 8 caractères non espacés dont une majuscule, une minuscule et 2 chiffres")
+                 alert("Mot de passe ou email invalide ! Il faut au minimum 8 caractères non espacés dont une majuscule, une minuscule et 2 chiffres")
             });
         };
     }

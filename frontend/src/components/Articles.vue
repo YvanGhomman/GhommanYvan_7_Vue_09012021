@@ -11,6 +11,7 @@
                     <h5 class="card-title text-center fontMiniTextTitre">{{item.titre}}</h5>    
                     <p class="card-text text-center fontMiniText">{{item.contenu}}</p>
                     <img class="col-lg-8 col-md-8 col-12 imgCard" v-if="item.imageUrl" :src="item.imageUrl" alt="">
+                    <p class="card-text  text-end fontDate">Posté le {{datePost(item.date_creation)}}</p>
                     <div class="row m-2">
                         <!-- Trigger the modal with a button -->
                         <button @click="getCom(item.id)" type="button" id="btnModal" class="col-lg-4 col-sm-4 col-8 btn btn--groupomania__blue fontMini" data-toggle="modal" :data-target="'#myModal'+item.id" aria-expanded="false">Commentaires</button>
@@ -32,6 +33,7 @@
                                             <h5 class="d-flex offset-sm-0 offset-2 col-6 fontMiniTextTitre align-items-center">{{comm.name}} {{comm.firstname}}</h5>
                                         </div>
                                             <p class="m-2 fontMiniText">{{comm.commentary}}</p>
+                                            <p class="m-2 fontDate text-end">Posté le {{datePost(comm.date_creation)}}</p>
                                             <div class=" offset-11 col-1">
                                               <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"><i class=" far fa-trash-alt poubelle text-danger"></i></a>
                                           
@@ -101,6 +103,17 @@ export default {
         
     },
      methods: {
+            datePost(date) {
+        const event = new Date(date);
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+        };
+        return event.toLocaleDateString("fr-Fr", options);
+        },
 
         deletePost(data) {
             if(confirm("Voulez-vous vraiment supprimer ce post ?")){
@@ -148,7 +161,7 @@ export default {
             });
                          }
         },
-
+        
         getCom(data){
             this.commentaires = "";
             axios.get("http://localhost:3000/comment/" +  data  + "/comment", {
@@ -259,7 +272,9 @@ cursor: pointer;
     border-radius: 10px;
 }
 
-
+.fontDate{
+            font-size: 0.7rem;
+    }
  @media screen and (max-width: 750px) {
     .imgCard{
         height: 300px;
