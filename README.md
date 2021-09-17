@@ -1,4 +1,4 @@
-Ce projet a été notamment réalisé avec : -ExpressJs -VueJs -MySQL -Bootstrap -Sass
+Ce projet a été notamment réalisé avec : -ExpressJs -VueJs -MySQL -Bootstrap
 
 Veuillez cloner ce repository
 
@@ -21,7 +21,7 @@ scindez votre terminal en 2
 - sur l'autre tapez :
 
   - cd .\frontend\
-  - npm install -g @vue/cli sass sass-loader
+  - npm install -g @vue/cli sass
   - npm install axios bootstrap core-js vue-router vue-jwt-decode
 
 Les fonctionnalités de ces dépendances sont les suivantes
