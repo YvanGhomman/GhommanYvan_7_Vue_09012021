@@ -30,7 +30,7 @@ exports.signup = (req, res, next) => {
             });
           else {
                 res.status(200).json({
-                  
+                //Configuration du token
                   token: jwt.sign(
                     { isAdmin: data.admin,
                       userId: data.id,
@@ -73,7 +73,7 @@ exports.login = (req, res, next) => {
           message : 'Mot de passe incorrect !' });
           } else {
             res.status(200).json({
-                  
+              //Configuration du token
               token: jwt.sign(
                 { isAdmin: data.admin,
                   userId: data.id,
@@ -201,11 +201,12 @@ exports.delete = (req, res) => {
           message: "Erreur de récupération du User avec l'id " + req.params.userId
         });
       }
-    } else {
-
+    }else{
+        //On recherche les articles créés par cet utilisateur
           Article.findByUserId(dota.id, (err, donnee) => {
+            
             if(!donnee){
-              
+              //Si il n'ya pas d'articles créés, on supprime l'utilisateur et sa photo de profil
               const filename = dota.profilPic.split('/profilPic/')[1];
                 fs.unlink(`profilPic/${filename}`, () => {
                     User.remove(req.params.userId, (err, data) => {
@@ -225,57 +226,55 @@ exports.delete = (req, res) => {
 
 
             }else{
-
-            
-            if (err) {
-              if (err.kind === "not_found") {
-                res.status(404).send({
-                  message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
-                });
-              } else {
-                res.status(500).send({
-                  message: "Erreur de récupération de l'article avec le user_id " + donnee.id
-                });
-              }
-            } else {
-
-              for (const element of donnee) {
-
-                if(!element.imageUrl){
-                console.log("Oh il n'y a pas d'image !");
-            
-                }else{
-                  const filename = element.imageUrl.split('/images/')[1];
-                          fs.unlink(`images/${filename}`, () => {
-                            
-                            console.log("image supprimée"); 
-                        })
-                        };
-                    }
-                        
-                        const filename = dota.profilPic.split('/profilPic/')[1];
-                                fs.unlink(`profilPic/${filename}`, () => {
-                                User.remove(req.params.userId, (err, data) => {
-                                  if (err) {
-                                    if (err.kind === "not_found") {
-                                      res.status(404).send({
-                                        message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
-                                      });
-                                    } else {
-                                      res.status(500).send({
-                                        message: "Erreur de suppression du User avec l'id " + req.params.userId
-                                      });
-                                    }
-                                  } else res.send({ message: `Le User a été supprimé !` });
-                          });
-                        })
-                        
-                        };}
-
-
-
-                })}
-                })}
+            //Si on trouve des articles créés par l'utilisateur
+              if (err) {
+                if (err.kind === "not_found") {
+                  res.status(404).send({
+                    message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
+                  });
+                } else {
+                  res.status(500).send({
+                    message: "Erreur de récupération de l'article avec le user_id " + donnee.id
+                  });
+                }
+              }else{
+                //Pour chaque article créé par cet utilisateur on vérifie s'il a mis une image avec
+                for (const element of donnee) {
+                  //Si il n'y a pas d'image, on ne fait rien
+                  if(!element.imageUrl){
+                  console.log("Il n'y a pas d'image dans cet article !");
+              
+                  }else{
+                    //Si il y a une image dans l'article, on la supprime
+                    const filename = element.imageUrl.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, () => {
+                        console.log("Image supprimée"); 
+                    })
+                  };
+                }
+                //On supprime ensuite l'utilisateur et sa photo de profil
+                const filename = dota.profilPic.split('/profilPic/')[1];
+                fs.unlink(`profilPic/${filename}`, () => {
+                  User.remove(req.params.userId, (err, data) => {
+                    if (err) {
+                      if (err.kind === "not_found") {
+                        res.status(404).send({
+                          message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                        });
+                      } else {
+                        res.status(500).send({
+                          message: "Erreur de suppression du User avec l'id " + req.params.userId
+                        });
+                      }
+                    } else res.send({ message: `Le User a été supprimé !` });
+                  });
+                })         
+              };
+            }
+          })
+      }
+  })
+}
               
 
 

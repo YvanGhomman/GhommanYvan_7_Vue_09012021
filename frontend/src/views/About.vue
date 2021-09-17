@@ -117,6 +117,7 @@
                                                     <h5 class="fontMiniTextTitre">{{post.titre}}</h5>
                                                     <p class="fontMiniText">{{post.contenu}}</p>
                                                     <img class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
+                                                    <p class="card-text text-end fontDate">Posté le {{datePost(post.date_creation)}}</p>
                                                     <a v-if="isAdmin == 1" @click="deletePostAdmin(post.id)"  class="offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a>
                                                     <!-- <a v-if="comm.id_user == userIdSession || isAdmin == 1" @click="deleteComm(comm.id)"  class=" offset-8 col-4 Supp offset-1"><i class="offset-11 far fa-trash-alt poubelle text-danger"></i></a> -->
                                                 </div>
@@ -357,6 +358,17 @@ export default {
             .catch((err) => console.log("Erreur : " + err));
 
         },
+        datePost(date) {
+        const event = new Date(date);
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+        };
+        return event.toLocaleDateString("fr-Fr", options);
+        },
         deletePostAdmin(data){
             if(confirm("Supprimer ce post ?")){
                axios.delete('http://localhost:3000/article/' + data, {
@@ -440,6 +452,9 @@ cursor: pointer;
   padding:20px;
 }
 
+.fontDate{
+            font-size: 0.7rem;
+    }
 @media screen and (max-width: 750px) {
     
 .fontMini {

@@ -15,6 +15,7 @@ exports.create = (req, res) => {
     })};
 
 if(!req.file){
+  console.log("Cet article n'a pas d'image");
   const article = new Article({
     titre: req.body.titre,
     contenu: req.body.contenu,
@@ -32,6 +33,7 @@ if(!req.file){
   });
 
 }else{
+  console.log("Cet article a une image");
   const article = new Article({
     titre: req.body.titre,
     contenu: req.body.contenu,
@@ -93,7 +95,7 @@ exports.findArticleWithUserId = (req, res) =>{
           message: "Erreur de récupération de l'article avec le user_id " + req.params.userId
         });
       }
-    } else  res.send(data); 
+    } else res.send(data); 
 
   });
 
@@ -144,6 +146,7 @@ exports.delete = (req, res) => {
     } else { 
 
       if(!data.imageUrl){
+        console.log("Cet article n'avait pas d'image");
         Article.remove(req.params.articleId, (err, data) => {
           if (err) {
             if (err.kind === "not_found") {
@@ -160,23 +163,24 @@ exports.delete = (req, res) => {
 
 
       }else{
+        console.log("Cet article avait une image");
         const filename = data.imageUrl.split('/images/')[1];
-                fs.unlink(`images/${filename}`, () => {
-                  
-                  Article.remove(req.params.articleId, (err, data) => {
-                    if (err) {
-                      if (err.kind === "not_found") {
-                        res.status(404).send({
-                          message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
-                        });
-                      } else {
-                        res.status(500).send({
-                          message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
-                        });
-                      }
-                    } else res.send({ message: `L'article a été supprimé !` });
-                  });
+        fs.unlink(`images/${filename}`, () => {
+
+          Article.remove(req.params.articleId, (err, data) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                res.status(404).send({
+                  message: `L'article avec l'id ${req.params.articleId} n'a pas été trouvé.`
                 });
+              } else {
+                res.status(500).send({
+                  message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
+                });
+              }
+            } else res.send({ message: `L'article a été supprimé !` });
+          });
+        });
       }
     }
   }) 

@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     const isAdmin = decodedToken.isAdmin;
     
     sql.query(`SELECT * FROM commentaire WHERE id = ${req.params.commentId}`, (err, data) => {
-        if ( isAdmin === 1 ||(data[0].id_user === userId)) {
+        if ( isAdmin === 1 || (data[0].id_user === userId)) {
             console.log("action autorisée");
             next();
         } else {

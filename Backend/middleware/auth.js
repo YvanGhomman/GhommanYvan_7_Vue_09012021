@@ -21,6 +21,7 @@ require('dotenv').config();
       }
     
     req.id_user = decoded.userId;
+    console.log("Token authorisé")
     next();
 });
 }; 
