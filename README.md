@@ -40,7 +40,6 @@ Les fonctionnalités de ces dépendances sont les suivantes
 - password-validator : permet de donner un modèle de mot de passe afin de garantir la sécurité de l'application et de l'utilisateur
 - vue : framework JavaScript open-source utilisé pour construire des interfaces utilisateur et des applications web monopages (SPA)
 - sass : langage de script préprocesseur qui est compilé ou interprété en CSS
-- sass-loader : charge un fichier Sass/SCSS et le compile en CSS
 - boostrap : collection d'outils utiles à la création du design de sites et d'applications web
 - core-js : permet de fournir des fonctionnalités récentes sur d'anciens navigateurs
 - vue-router : permet de gérer le routage de page dynamiquement
