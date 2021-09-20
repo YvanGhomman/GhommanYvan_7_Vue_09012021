@@ -56,11 +56,9 @@ Mise en route
 Veuillez ouvrir le dossier du projet Groupomania avec votre éditeur de code (IDE)
 
 Sur votre terminal scindé en 2 :
+- dans la partie .\Back-end\ tapez:
+  - nodemon .\server.js
+- sur la partie .\frontend\ tapez :
+  - npm run serve
 
-dans la partie .\Back-end\ tapez:
-
-nodemon .\server.js
-sur la partie .\frontend\ tapez :
-
-npm run serve
 Rendez-vous ensuite sur http://localhost:8080/
