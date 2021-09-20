@@ -1,3 +1,6 @@
+GROUPOMANIA - Projet 7
+=
+
 Ce projet a été notamment réalisé avec : -ExpressJs -VueJs -MySQL -Bootstrap
 
 Veuillez cloner ce repository
