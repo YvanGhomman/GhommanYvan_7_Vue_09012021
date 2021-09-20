@@ -95,8 +95,6 @@ export default {
                     }
                 })
                     .then((response) => {
-                    console.log(response.data);
-                    console.log(sessionStorage);
                     this.donnees = response.data
                     }) 
         }        
@@ -124,7 +122,6 @@ export default {
             }, 
         })
             .then(function(response) { 
-                console.log(response);
                 document.location.reload();
             }) 
             .catch(function(error) { 
@@ -153,7 +150,6 @@ export default {
                 user_profilPic: user_profilPic
             }) 
             .then(function(response) { 
-                console.log(response);
                 document.location.reload(); 
             }) 
             .catch(function(error) { 
@@ -170,7 +166,6 @@ export default {
                 }})
             .then((response) => {
             this.commentaires = response.data;
-            console.log(this.commentaires);
             })
             .catch((err) => console.log("Erreur : " + err));
 
@@ -185,7 +180,6 @@ export default {
             }, 
         })
             .then(function(response) { 
-                console.log(response);
                 document.location.reload();
             }) 
             .catch(function(error) { 

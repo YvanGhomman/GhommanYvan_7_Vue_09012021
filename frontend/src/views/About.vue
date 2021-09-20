@@ -175,8 +175,6 @@ export default {
                     }
                 })
                     .then((response) => {
-                    console.log(response.data);
-                    console.log(sessionStorage);
                     this.utilisateurs = response.data
                     })
     }
@@ -211,10 +209,8 @@ export default {
             //traitement de la réponse du serveur
                 envoi.then(async response =>{
                     try{
-                        console.log(response);
                     //récupération de la réponse du serveur
                         let confirmation = await response.json();
-                        console.log(confirmation);
                         if (confirmation.error){
                             console.log("error")
                             alert("Mot de passe invalide !")
@@ -236,10 +232,7 @@ export default {
         onFileAdded(event){
             const imageInput = document.querySelector('input[type="file"]')
             const file = imageInput.files[0];
-            console.log(file);
-            this.profilPic = file;
-            console.log(this.profilPic);
-            
+            this.profilPic = file;            
             const reader = new FileReader();
             reader.onload = () => {
             this.imagePreview = reader.result ;
@@ -257,8 +250,6 @@ export default {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
                 }})
                .then(function(response) {
-                 
-                    console.log(response);
                     sessionStorage.clear();
                     window.location.href= "/";
                 })
@@ -282,13 +273,11 @@ export default {
                const email = document.getElementById('inputEmail').value;
                const admin = this.isAdmin;
                const profilPic = this.profilPic
-               console.log(profilPic);
            
             
             const user_id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
 
            
-            console.log(this.profilPic);
             const formData = new FormData();
             formData.append('profilPic', profilPic);
             formData.append('firstname', firstname);
@@ -298,12 +287,8 @@ export default {
             formData.append('email', email);
             formData.append('admin', admin);
 
-
-
         //on POST les infos reccueillies au serveur
             axios.put("http://localhost:3000/user/" + user_id, formData, {
-                
-                
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
@@ -312,12 +297,9 @@ export default {
         //traitement de la réponse du serveur
             .then(async response =>{
                 try{
-                    console.log(response);
                 //récupération de la réponse du serveur
                     let confirmation = await response.data;
-                    console.log(confirmation);
                     sessionStorage.clear();
-                    console.log(sessionStorage);
                     window.location.href= "/";
 
                     
@@ -337,7 +319,6 @@ export default {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
                 }})
                .then(function(response) {
-                    console.log(response);
                     window.location.href= "/about";
                 })
                 .catch(function(error) {
@@ -353,7 +334,6 @@ export default {
                 }})
             .then((response) => {
             this.posts = response.data;
-            console.log(this.posts);
             })
             .catch((err) => console.log("Erreur : " + err));
 
@@ -377,7 +357,6 @@ export default {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
                 }})
                .then(function(response) {
-                    console.log(response);
                     window.location.href= "/about";
                 })
                 .catch(function(error) {

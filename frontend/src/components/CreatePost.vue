@@ -43,9 +43,7 @@ export default {
         onFileAdded(event){
             const imageInput = document.querySelector('input[type="file"]')
             const file = imageInput.files[0];
-            console.log(file);
             this.imageUrl = file;
-            console.log(this.imageUrl);
             
             
             const reader = new FileReader();
@@ -69,7 +67,6 @@ export default {
             const contenu=document.getElementById('textarea').value;
             const imageUrl = this.imageUrl
            
-            console.log(this.imageUrl);
             const formData = new FormData();
             formData.append('image', imageUrl);
             formData.append('titre', titre);
@@ -83,8 +80,6 @@ export default {
                 },
                 }) 
             .then(function(response) { 
-                console.log(response);
-                
                 document.location.reload(); 
              
                 

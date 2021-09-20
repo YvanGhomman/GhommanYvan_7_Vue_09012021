@@ -47,7 +47,6 @@ export default {
                 password : document.getElementById('inputPassword').value,
                 email : document.getElementById('inputEmail').value
             }; 
-            console.log(contact);
 
         //on POST les infos reccueillies au serveur
             const envoi =  fetch("http://localhost:3000/user/login", {
@@ -60,29 +59,13 @@ export default {
         //traitement de la réponse du serveur
          envoi.then( async response =>{
                 try{ 
-                    console.log(response);
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
-                    console.log(confirmation);
                     if (confirmation.error){
                             console.log("error")
                             alert("Mot de passe ou email invalide : " + confirmation.message)
-                    }else{
-
-
-                     let userId = confirmation.userId;
-                    console.log(userId);
-                //variable qui reccueille le contact du client et l'Id de confirmation de commande
-                    let result = {
-                        userId: userId
-                    }
-                    console.log(result); 
-
-                    
-                    /* sessionStorage.setItem("confirm", JSON.stringify(result)); */
-                   
+                    }else{                   
                     sessionStorage.setItem("token", confirmation.token);
-                    console.log(sessionStorage);
                     window.location.href ="./accueil";
                     }
                     

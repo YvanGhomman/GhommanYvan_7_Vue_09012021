@@ -29,7 +29,6 @@ export default {
     methods:{
       goAccueil() {
         sessionStorage.clear();
-        console.log(sessionStorage);
       }
       }
 }

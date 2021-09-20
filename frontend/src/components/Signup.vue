@@ -52,12 +52,7 @@ export default {
        onFileAdded(event){
             const imageInput = document.querySelector('input[type="file"]')
             const file = imageInput.files[0];
-            console.log(file);
             this.profilPic = file;
-            console.log(this.profilPic);
-            
-            /* imageInput.setValue(file); */
-           /*  this.sauceForm.updateValueAndValidity(); */
             const reader = new FileReader();
             reader.onload = () => {
             this.imagePreview = reader.result ;
@@ -66,9 +61,6 @@ export default {
         },
 
     sendSignup(){
-
-    //on verifie que la checkbox est checked
-
     //on vérifie que tout le formulaire est conforme
         let FormValid = document.getElementById('checked').checkValidity();
 
@@ -78,18 +70,6 @@ export default {
             alert(`Vous n'avez pas rempli tous les champs requis !`);
     //sinon
         }else{
-        
-        //variable qui reccueille les infos de contact du client
-             /* let contact = {
-                firstname : document.getElementById('inputPrenom').value,
-                name : document.getElementById('inputNom').value,
-                job : document.getElementById('inputJob').value,
-                password : document.getElementById('inputPassword').value,
-                email : document.getElementById('inputEmail').value,
-                profilPic: this.pic
-            }; 
-            console.log(contact); */
-            console.log(this.profilPic);
             const firstname = document.getElementById('inputPrenom').value;
             const name = document.getElementById('inputNom').value;
             const job = document.getElementById('inputJob').value;
@@ -105,7 +85,6 @@ export default {
             formData.append('job', job);
             formData.append('password', password);
             formData.append('email', email);
-            console.log(formData);
 
         //on POST les infos reccueillies au serveur
             axios.post("http://localhost:3000/user/signup", formData ,  {
@@ -114,24 +93,13 @@ export default {
                      'Authorization': 'Bearer ', 
                      'content-Type': 'multipart/form-data',
                 },
-                /* firstname : document.getElementById('inputPrenom').value,
-                name : document.getElementById('inputNom').value,
-                job : document.getElementById('inputJob').value,
-                password : document.getElementById('inputPassword').value,
-                email : document.getElementById('inputEmail').value,
-                profilPic: this.pic */
 
             })
         //traitement de la réponse du serveur
             .then(async function(response){
-                
-                    console.log(response.data);
                 //récupération de la réponse du serveur
-                    let confirmation =  await  response.data;
-                    console.log(confirmation);
-                    
+                    let confirmation =  await  response.data;                    
                     sessionStorage.setItem("token", confirmation.token);
-                    console.log(sessionStorage);
                     window.location.href ="./accueil";
 
                     
